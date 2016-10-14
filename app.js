@@ -1,7 +1,7 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     app = express(),
-    port = 5000;
+    port = 80;
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
