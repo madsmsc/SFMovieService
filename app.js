@@ -14,5 +14,6 @@ app.get('/', function(req, res) {
     });
 });
 
-app.listen(port);
-console.log("listening to port " + port);
+app.listen(process.env.PORT || port);
+console.log("listening to port " + process.env.PORT +
+            "or " + port);
