@@ -1,0 +1,12 @@
+{
+  "name": "sfmovieservice",
+  "version": "1.0.0",
+  "description": "sfmovieservice",
+  "main": "app.js",
+  "author": "Mads Pedersen",
+  "dependencies": {
+    "express": "~4.14.0",
+    "body-parser": "~1.15.2",
+    "ejs": "~0.7.1"
+  }
+}
