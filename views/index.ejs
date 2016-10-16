@@ -8,37 +8,51 @@
 </head> 
   <body>
     <div class="container">
-        <h1>404</h1><br/>
-        <h3>you broke my website...</h3>
-    </div>
+      <br/>
+      <b>Titles: </b> 
+      <input list="titles" id="titlesId"/>
+      <datalist id="titles">
+        <select id="selectId">
+          <% for(var i=0; i < DB.length; i++){ %>
+            <option value="<%= DB[i].title %>" label="<%= i %>"/>
+          <% } %>
+        </select>
+      </datalist>
+      <input type="button" value="Goto" onclick="gotoPosition();"/>
     
-    <br/><br/><br/>
-    <%if(user == ""){ %>
-      no user.
-    <% }else{ %>
-      user= <%= user %>.
-    <% } %>
+      <br/><br/>
+      <div id="map"></div>
+      <script>
+        function gotoPosition(){
+          var selected = document.getElementById('titlesId').value;
+          var options = document.getElementById('selectId').options;
+          <% for(i=0; i < DB.length; i++){ %>
+            if(options[<%= i %>].value == selected){ 
+              map.setCenter({lat: <%= DB[i].lat %>, lng: <%= DB[i].lng %>});
+              return;
+            }
+          <% } %>
+          alert('couldn\'t find selected='+selected);
+        }
+        var map;
+        function initMap(){
+          map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: {lat: <%= DB[0].lat %>, lng: <%= DB[0].lng %>}
+          });
+          <% for(var i=0; i < DB.length; i++){ %>
+            var marker<%= i %> = new google.maps.Marker({
+              position: {lat: <%= DB[i].lat %>, lng: <%= DB[i].lng %>},
+              title: "<%= DB[i].title %>",
+              map: map
+            });
+          <% } %>
+        }
+      </script>
+      <script async defer
+          src=<%= "https://maps.googleapis.com/maps/api/js?key="+apiKey+"&callback=initMap" %> >
+      </script>
 
-    <br/><br/><br/>
-    <center>
-    <div id="map"></div>
-    <script>
-      function initMap() {
-        var uluru = {lat: <%= loc.lat %>, lng: <%= loc.lng %>};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-      }
-    </script>
-    <script async defer
-        src=<%= "https://maps.googleapis.com/maps/api/js?key="+apiKey+"&callback=initMap" %> >
-    </script>
-    </center>
-    <br/><br/><br/>
+    </div>
   </body>
 </html>
