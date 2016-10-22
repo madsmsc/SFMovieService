@@ -93,7 +93,7 @@ function addToDB(json, loc){
         // locations eller address?
         var sql = 'insert into points (title, address, lat, lng) '+
                   'values ('+json.title+', '+json.locations+', '+
-                  json.lat+', '+json.lng+')';
+                  json.lat+', '+json.lng+');';
         client.query(sql, function(err, result) {
         done();
         if(err){ 
@@ -122,13 +122,14 @@ function updateDB(){
 function updateList(){
     DB = [];
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        var sql = 'select * from points';
+        var sql = 'select * from points;';
         client.query(sql, function(err, result) {
         done();
         if(err){ 
             console.error(err); 
             response.send("Error " + err); 
         }else{ 
+            console.log('updateList: result.rows = ' + result.rows.length)
             for(row = 0; row < result.rows.length; row++){
                 DB.push({
                     address: result.rows[row].address,
