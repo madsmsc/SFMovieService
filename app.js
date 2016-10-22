@@ -127,26 +127,26 @@ function updateDB(){
 
 function getPoints(){
     var points = [];
-    // pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    //     var sql = 'select * from points;';
-    //     client.query(sql, function(err, result) {
-    //         done();
-    //         if(err){ 
-    //             console.log('getPoints err: '+err.stack);  
-    //         }else{ 
-    //             console.log('updateList: result.rows = ' + result.rows.length)
-    //             for(row = 0; row < result.rows.length; row++){
-    //                 points.push({
-    //                     address: result.rows[row].address,
-    //                     title: result.rows[row].title,
-    //                     lat: result.rows[row].lat,
-    //                     lng: result.rows[row].lng
-    //                 });
-    //             }
-    //             console.log('pg: ' + result.rows); 
-    //         }
-    //     });
-    // });
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        var sql = 'select * from points;';
+        client.query(sql, function(err, result) {
+            done();
+            if(err){ 
+                console.log('getPoints err: '+err.stack);  
+            }else{ 
+                console.log('updateList: result.rows = ' + result.rows.length)
+                for(row = 0; row < result.rows.length; row++){
+                    points.push({
+                        address: result.rows[row].address,
+                        title: result.rows[row].title,
+                        lat: result.rows[row].lat,
+                        lng: result.rows[row].lng
+                    });
+                }
+                console.log('pg: ' + result.rows); 
+            }
+        });
+    });
 
     points.push({
         address: '1',
