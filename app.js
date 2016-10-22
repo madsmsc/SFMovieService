@@ -96,21 +96,21 @@ function rowInDB(json){
 }
 
 function addToDB(json, loc){
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        var sql = 'insert into points (title, address, lat, lng) '+
-                  'values ("'+json.title+'", "'+json.locations+'", '+
-                  json.lat+', '+json.lng+');';
-        client.query(sql, function(err, result) {
-            done();
-            if(err){ 
-                console.error('addToDB err: '+err.stack); 
-            }else{ 
-                console.log('addToDB ok: '); 
-            }
-            console.log('Added row to DB. '+json.title+
-                        ' @ '+loc.lat+', '+loc.lng);
-        });
-    });
+    // pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    //     var sql = 'insert into points (title, address, lat, lng) '+
+    //               'values ("'+json.title+'", "'+json.locations+'", '+
+    //               json.lat+', '+json.lng+');';
+    //     client.query(sql, function(err, result) {
+    //         done();
+    //         if(err){ 
+    //             console.error('addToDB err: '+err.stack); 
+    //         }else{ 
+    //             console.log('addToDB ok: '); 
+    //         }
+    //         console.log('Added row to DB. '+json.title+
+    //                     ' @ '+loc.lat+', '+loc.lng);
+    //     });
+    // });
 }
 
 function updateDB(){
