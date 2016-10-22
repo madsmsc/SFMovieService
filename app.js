@@ -5,7 +5,9 @@ var express = require('express'),
     unittest = require('./test'),
     app = express(),
     port = 5000,
+    DB = [],
     googleApiKey='AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw';
+
 // TODO MPE: set google api key restricted
 // TODO what about the sf movie db key?
 
@@ -72,15 +74,14 @@ function geoCallback(error, response, body){
 }
 
 function rowInDB(json){
-    var DB = getPoints();
-    for(x = 0; x < DB.length; x++){
-        if(DB[x].address == json.locations){
-            // TODO THIS might have to be commented in again
-         //&& DB[i].title == json.title){
-            // console.log('Row found in DB.'+json.title);
-            return true;
-        }
-    }
+    // for(x = 0; x < DB.length; x++){
+    //     if(DB[x].address == json.locations){
+    //         // TODO THIS might have to be commented in again
+    //      //&& DB[i].title == json.title){
+    //         // console.log('Row found in DB.'+json.title);
+    //         return true;
+    //     }
+    // }
     return false;
 }
 
@@ -115,26 +116,22 @@ function updateDB(){
 }
 
 function getPoints(){
-    var DB = [];
+    var points = [];
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var sql = 'select * from points;';
         client.query(sql, function(err, result) {
         done();
         if(err){ 
             console.error(err); 
-            response.send("Error " + err); 
+            response.send("getPoints Error " + err); 
         }else{ 
             console.log('updateList: result.rows = ' + result.rows.length)
             for(row = 0; row < result.rows.length; row++){
-                DB.push({
-                    // address: result.rows[row].address,
-                    // title: result.rows[row].title,
-                    // lat: result.rows[row].lat,
-                    // lng: result.rows[row].lng
-                    address: '1',
-                    title: '2',
-                    lat: '3',
-                    lng: '4'
+                points.push({
+                    address: result.rows[row].address,
+                    title: result.rows[row].title,
+                    lat: result.rows[row].lat,
+                    lng: result.rows[row].lng
                 });
             }
             console.log('pg: ' + result.rows); 
@@ -142,23 +139,25 @@ function getPoints(){
         });
     });
 
-    DB.push({
+    points.push({
         address: '1',
         title: '2',
         lat: '3',
         lng: '4'
     });
-    return DB;
+    return points;
 }
 
 app.get('/', function(req, res){
     console.log('Update database.');
     updateDB();
+    console.log('Setting DB');
+    DB = getPoints();
     console.log('Serve index.ejs');
     res.render('index', {
         user: 'mads',
         apiKey: googleApiKey,
-        DB: getPoints()
+        DB: DB
     });
 });
 
