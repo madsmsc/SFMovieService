@@ -142,7 +142,7 @@ function getPoints(){
                         lat: result.rows[row].lat,
                         lng: result.rows[row].lng
                     });
-                    console.log('new point: ' + points[i]); 
+                    console.log('new point: ' + points[row]); 
                 }
             }
         });
