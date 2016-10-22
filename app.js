@@ -96,23 +96,23 @@ function rowInDB(json){
 }
 
 function addToDB(json, loc){
-    console.log('addToDB ');
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        console.log('pg.connect');
         var sql = 'insert into points (title, address, lat, lng) '+
                   'values ('+json.title+', '+json.locations+', '+
                   json.lat+', '+json.lng+');';
         client.query(sql, function(err, result) {
-        done();
-        if(err){ 
-            console.error(err); 
-            response.send("Error " + err); 
-        }else{ 
-            console.log('added to pg: ' + result.rows.length); 
-        }
+            done();
+            if(err){ 
+                console.error(err); 
+                response.send("Error " + err); 
+            }else{ 
+                console.log('added to pg: ' + result.rows.length); 
+            }
+            console.log('Added row to DB. '+json.title+
+                        ' @ '+loc.lat+', '+loc.lng);
         });
     });
-
-    console.log('Added row to DB. '+json.title+' @ '+loc.lat+', '+loc.lng);
 }
 
 function updateDB(){
@@ -178,14 +178,13 @@ app.get('/test', function(req, res){
     });
 });
 
-// http://stackoverflow.com/questions/4213351/make-node-js-not-exit-on-error
-process.on('uncaughtException', function (err) {
-  console.log('Caught exception: ' + err);
-});
+// process.on('uncaughtException', function (err) {
+//   console.log('exception: ' + err);
+// });
 
-setTimeout(function () {
-  console.log('This will still run.');
-}, 500);
+// setTimeout(function () {
+//   console.log('timeout set');
+// }, 500);
 
 app.listen(process.env.PORT || port);
 console.log('listening to port ' + process.env.PORT +

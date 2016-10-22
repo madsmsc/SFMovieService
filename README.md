@@ -49,4 +49,4 @@ It is deployed on Heroku.
 
 ## Errors
 Errors in the code are not handled very gracefully. 
-The app will usually just exit with status 1.
+They are just ignored and logged.
