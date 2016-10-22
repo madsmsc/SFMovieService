@@ -52,14 +52,18 @@ function getMissingLocations(missing){
             url: 'https://maps.googleapis.com/maps/api/geocode/' +
                     'json?address=' + add + '&key=' + googleApiKey
         }
-        // console.log('adding movie: ' + missing[i]);
         if(missing[i] != undefined){
+            console.log('adding movie: ' + missing[i]);
             request(options, geoCallback.bind({movie: missing[i]}));
+        }
+        else{
+            console.log('missing['+i+'] is undefined');
         }
     }
 }
 
 function geoCallback(error, response, body){
+    console.log('geoCB [start]');
     if(!error && response.statusCode == 200){
         var result = JSON.parse(body).results[0];
         if(result == undefined){
