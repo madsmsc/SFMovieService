@@ -177,7 +177,7 @@ app.get('/test', function(req, res){
 
 // http://stackoverflow.com/questions/4213351/make-node-js-not-exit-on-error
 process.on('uncaughtException', function (err) {
-//   console.log('Caught exception: ' + err);
+  console.log('Caught exception: ' + err);
 });
 
 setTimeout(function () {
