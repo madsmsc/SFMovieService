@@ -96,7 +96,20 @@ function addToDB(json, loc){
         lng: loc.lng
     });
 
-
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        var sql = 'insert into points (title, address, lat, lng) '+
+                  'values ('+json.title+', '+json.address+', '+
+                  json.lat+', '+json.lng+')';
+        client.query(sql, function(err, result) {
+        done();
+        if(err){ 
+            console.error(err); 
+            response.send("Error " + err); 
+        }else{ 
+            console.log('pg: ' + result.rows); 
+        }
+        });
+    });
 
     // console.log('Added row to DB. '+json.title+' @ '+loc.lat+', '+loc.lng);
 }
@@ -127,18 +140,6 @@ app.get('/', function(req, res){
         user: 'mads',
         apiKey: googleApiKey,
         DB: DB
-    });
-
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT * FROM points', function(err, result) {
-        done();
-        if(err){ 
-            console.error(err); 
-            response.send("Error " + err); 
-        }else{ 
-            console.log('pg: ' + result.rows); 
-        }
-        });
     });
 });
 
