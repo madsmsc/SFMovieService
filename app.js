@@ -99,7 +99,7 @@ function rowInDB(json){
 
     for(x = 0; x < DB.length; x++){
         if(DB[x].address == json.locations &&
-           DB[i].title == json.title){
+           DB[x].title == json.title){
             return true;
         }
     }
