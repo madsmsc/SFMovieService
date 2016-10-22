@@ -131,8 +131,24 @@ function point2string(point){
            ', lng: ' + point.lng;
 }
 
-function getPoints(){
+function simplePoints(points){
     var points = [];
+    points.push({
+        address: '1',
+        title: '2',
+        lat: '3',
+        lng: '4'
+    });
+    points.push({
+        address: '5',
+        title: '6',
+        lat: '7',
+        lng: '8'
+    });
+}
+
+function servePoints(res){
+    var points = simplePoints();
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var sql = 'select * from points;';
         client.query(sql, function(err, result) {
@@ -148,38 +164,23 @@ function getPoints(){
                         lat: result.rows[row].lat,
                         lng: result.rows[row].lng
                     });
-                    console.log('new point: ' + point2string(points[row])); 
+                    console.log('new point: ' + point2string(points[row]));
                 }
+                res.render('index', {
+                    user: 'mads',
+                    apiKey: googleApiKey,
+                    DB: points
+                });
             }
         });
     });
-
-    points.push({
-        address: '1',
-        title: '2',
-        lat: '3',
-        lng: '4'
-    });
-    points.push({
-        address: '5',
-        title: '6',
-        lat: '7',
-        lng: '8'
-    });
-    return points;
 }
 
 app.get('/', function(req, res){
     console.log('Update database.');
     updateDB();
-    console.log('Setting DB');
-    DB = getPoints();
     console.log('Serve index.ejs');
-    res.render('index', {
-        user: 'mads',
-        apiKey: googleApiKey,
-        DB: DB
-    });
+    servePoints(res);
 });
 
 app.get('/test', function(req, res){
