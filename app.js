@@ -103,7 +103,7 @@ function addToDB(json, loc){
         client.query(sql, function(err, result) {
             done();
             if(err){ 
-                console.error('addToDB err: '+err); 
+                console.error('addToDB err: '+err.stack); 
             }else{ 
                 console.log('addToDB ok: '); 
             }
@@ -131,8 +131,7 @@ function getPoints(){
         client.query(sql, function(err, result) {
         done();
         if(err){ 
-            console.error(err); 
-            response.send("getPoints Error " + err); 
+            console.log('getPoints err: '+err.stack);  
         }else{ 
             console.log('updateList: result.rows = ' + result.rows.length)
             for(row = 0; row < result.rows.length; row++){
