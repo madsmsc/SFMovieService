@@ -52,7 +52,7 @@ function getMissingLocations(missing){
             url: 'https://maps.googleapis.com/maps/api/geocode/' +
                     'json?address=' + add + '&key=' + googleApiKey
         }
-        if(movie != undefined){
+        if(missing[i] != undefined){
             request(options, geoCallback.bind({movie: missing[i]}));
         }
     }
