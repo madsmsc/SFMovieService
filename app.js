@@ -74,12 +74,12 @@ function geoCallback(error, response, body){
             return;
         }
         var loc = result.geometry.location;
-        console.log('geo: lat='+loc.lat+', lng='+loc.lng);
+        // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
         addToDB(localMovie, loc);
     }
     else{
-        console.log('Call to google api failed. ' + 
-                    'Error: ' + JSON.stringify(error));
+        // console.log('Call to google api failed. ' + 
+        //             'Error: ' + JSON.stringify(error));
     }
 }
 
@@ -106,10 +106,9 @@ function addToDB(json, loc){
             if(err){ 
                 console.error('addToDB err: '+err.stack); 
             }else{ 
-                console.log('addToDB ok: '); 
-            }
-            console.log('Added row to DB. '+json.title+
+                console.log('Added row to DB. '+json.title+
                         ' @ '+loc.lat+', '+loc.lng);
+            }
         });
     });
 }
@@ -123,6 +122,13 @@ function updateDB(){
         }
     }
     request(movieOptions, movieCallback);
+}
+
+function point2string(point){
+    return 'title: ' + point.title + 
+           ', address: ' + point.address + 
+           ', lat: ' + point.lat + 
+           ', lng: ' + point.lng;
 }
 
 function getPoints(){
@@ -142,7 +148,7 @@ function getPoints(){
                         lat: result.rows[row].lat,
                         lng: result.rows[row].lng
                     });
-                    console.log('new point: ' + points[row]); 
+                    console.log('new point: ' + point2string(points[row])); 
                 }
             }
         });
