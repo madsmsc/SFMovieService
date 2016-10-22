@@ -52,7 +52,7 @@ function getMissingLocations(missing){
             url: 'https://maps.googleapis.com/maps/api/geocode/' +
                     'json?address=' + add + '&key=' + googleApiKey
         }
-        console.log('adding movie: ' + missing[i]);
+        // console.log('adding movie: ' + missing[i]);
         if(missing[i] != undefined){
             request(options, geoCallback.bind({movie: missing[i]}));
         }
@@ -63,11 +63,11 @@ function geoCallback(error, response, body){
     if(!error && response.statusCode == 200){
         var result = JSON.parse(body).results[0];
         if(result == undefined){
-            // console.log('Result from googleapi undefined');
+            console.log('Result from googleapi undefined');
             return;
         }
         var loc = result.geometry.location;
-        // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
+        console.log('geo: lat='+loc.lat+', lng='+loc.lng);
         addToDB(movie, loc);
     }
     else{
