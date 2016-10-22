@@ -23,7 +23,7 @@ function movieCallback(error, response, body){
         var movies = JSON.parse(body);
         console.log('Found ' + movies.length + ' rows');
         var missing = [];
-        for(i = 0; i < 0; i++){ // TODO  movies.length
+        for(i = 0; i < movies.length; i++){
             if(!rowInDB(movies[i])){
                 console.log(i+': Added movie to missing. '+movies[i].locations);
                 missing.push(movies[i]);
@@ -41,7 +41,7 @@ function movieCallback(error, response, body){
 }
 
 function getMissingLocations(missing){
-    // console.log('Missing movies in DB: '+missing.length);
+    console.log('Missing movies in DB: '+missing.length);
     for(i = 0; i < missing.length; i++){
         if(missing[i].locations == undefined){
             console.log('Could not find location for '+missing[i].title);
