@@ -53,7 +53,7 @@ function getMissingLocations(missing){
                     'json?address=' + add + '&key=' + googleApiKey
         }
         if(missing[i] != undefined){
-            console.log('adding movie: ' + missing[i]);
+            // console.log('adding movie: ' + missing[i]);
             request(options, geoCallback.bind({movie: missing[i]}));
         }
         else{
@@ -93,6 +93,7 @@ function rowInDB(json){
 }
 
 function addToDB(json, loc){
+    console.log('addToDB ' + json.title);
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var sql = 'insert into points (title, address, lat, lng) '+
                   'values ('+json.title+', '+json.locations+', '+
