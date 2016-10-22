@@ -40,6 +40,8 @@ function movieCallback(error, response, body){
     }
 }
 
+var localMovie;
+
 function getMissingLocations(missing){
     // console.log('Missing movies in DB: '+missing.length);
     for(i = 0; i < missing.length; i++){
@@ -54,7 +56,8 @@ function getMissingLocations(missing){
         }
         if(missing[i] != undefined){
             // console.log('adding movie: ' + missing[i]);
-            request(options, geoCallback.bind({movie: missing[i]}));
+            localMovie = missing[i];
+            request(options, geoCallback);
         }
         else{
             console.log('missing['+i+'] is undefined');
@@ -72,7 +75,7 @@ function geoCallback(error, response, body){
         }
         var loc = result.geometry.location;
         console.log('geo: lat='+loc.lat+', lng='+loc.lng);
-        addToDB(movie, loc);
+        addToDB(localMovie, loc);
     }
     else{
         console.log('Call to google api failed. ' + 
