@@ -29,7 +29,7 @@ function movieCallback(error, response, body){
                 missing.push(movies[i]);
             }
             else{
-                console.log(i+': Movie already in DB. '+movies[i].title);
+                // console.log(i+': Movie already in DB. '+movies[i].title);
             }
         }
         getMissingLocations(missing);
@@ -44,7 +44,7 @@ function getMissingLocations(missing){
     console.log('Missing movies in DB: '+missing.length);
     for(i = 0; i < missing.length; i++){
         if(missing[i].locations == undefined){
-            console.log('Could not find location for '+missing[i].title);
+            // console.log('Could not find location for '+missing[i].title);
             continue;
         }
         var add = missing[i].locations.split(' ').join('+');
@@ -52,7 +52,9 @@ function getMissingLocations(missing){
             url: 'https://maps.googleapis.com/maps/api/geocode/' +
                     'json?address=' + add + '&key=' + googleApiKey
         }
-        request(options, geoCallback.bind({movie: missing[i]}));
+        if(movie != undefined){
+            request(options, geoCallback.bind({movie: missing[i]}));
+        }
     }
 }
 
@@ -60,11 +62,11 @@ function geoCallback(error, response, body){
     if(!error && response.statusCode == 200){
         var result = JSON.parse(body).results[0];
         if(result == undefined){
-            console.log('Result from googleapi undefined');
+            // console.log('Result from googleapi undefined');
             return;
         }
         var loc = result.geometry.location;
-        console.log('geo: lat='+loc.lat+', lng='+loc.lng);
+        // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
         addToDB(movie, loc);
     }
     else{
