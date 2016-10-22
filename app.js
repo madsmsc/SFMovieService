@@ -104,10 +104,9 @@ function addToDB(json, loc){
         client.query(sql, function(err, result) {
             done();
             if(err){ 
-                console.error(err); 
-                response.send("Error " + err); 
+                console.error('addToDB err: '+err); 
             }else{ 
-                console.log('added to pg: ' + result.rows.length); 
+                console.log('addToDB ok: '); 
             }
             console.log('Added row to DB. '+json.title+
                         ' @ '+loc.lat+', '+loc.lng);
