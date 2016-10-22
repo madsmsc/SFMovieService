@@ -11,14 +11,6 @@ var express = require('express'),
 
 // TODO the title autocompletion doesn't work in FF
 
-// TODO make the title input look nicer.
-
-// TODO figure out how to make the map 100% width, 90% height.
-
-// TODO move to actual database
-// columns: title, address, lat, lng
-var DB = [];
-
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -77,6 +69,7 @@ function geoCallback(error, response, body){
 }
 
 function rowInDB(json){
+    var DB = getPoints();
     for(x = 0; x < DB.length; x++){
         if(DB[x].address == json.locations){
             // TODO THIS might have to be commented in again
@@ -90,7 +83,6 @@ function rowInDB(json){
 
 function addToDB(json, loc){
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        // locations eller address?
         var sql = 'insert into points (title, address, lat, lng) '+
                   'values ('+json.title+', '+json.locations+', '+
                   json.lat+', '+json.lng+');';
@@ -119,8 +111,8 @@ function updateDB(){
     request(movieOptions, movieCallback);
 }
 
-function updateList(){
-    DB = [];
+function getPoints(){
+    var DB = [];
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var sql = 'select * from points;';
         client.query(sql, function(err, result) {
@@ -132,16 +124,21 @@ function updateList(){
             console.log('updateList: result.rows = ' + result.rows.length)
             for(row = 0; row < result.rows.length; row++){
                 DB.push({
-                    address: result.rows[row].address,
-                    title: result.rows[row].title,
-                    lat: result.rows[row].lat,
-                    lng: result.rows[row].lng
+                    // address: result.rows[row].address,
+                    // title: result.rows[row].title,
+                    // lat: result.rows[row].lat,
+                    // lng: result.rows[row].lng
+                    address: '1',
+                    title: '2',
+                    lat: '3',
+                    lng: '4'
                 });
             }
             console.log('pg: ' + result.rows); 
         }
         });
     });
+    return DB;
 }
 
 app.get('/', function(req, res){
@@ -153,7 +150,7 @@ app.get('/', function(req, res){
     res.render('index', {
         user: 'mads',
         apiKey: googleApiKey,
-        DB: DB
+        DB: getPoints()
     });
 });
 
