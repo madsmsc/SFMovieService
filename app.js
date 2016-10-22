@@ -145,6 +145,7 @@ function simplePoints(points){
         lat: '7',
         lng: '8'
     });
+    return points;
 }
 
 function servePoints(res){
