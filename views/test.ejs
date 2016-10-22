@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>unit tests</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+   <script src="mapStyle.js"></script> 
+</head> 
+  <body>
+    <div class="container">
+      
+      <br/><br/>
+      <table class="testTable">
+        <tr>
+          <td><b>Test name</b></td>
+          <td><b>Test status</b></td>
+        </tr>
+        <% for(var i=0; i < tests.length; i++){ %>
+        <tr>
+          <td><%= tests[i].name %></td>
+          <td>
+          <% if(tests[i].status=='OK'){ %>
+            <font color="green">
+          <% } else { %>
+            <font color="red">
+          <% } %>
+          <%= tests[i].status %>
+            </font>
+          </td>
+        </tr>
+        <% } %>
+      </table>
+      
+    </div>
+  </body>
+</html>

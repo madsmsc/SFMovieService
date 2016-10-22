@@ -44,5 +44,6 @@ It is deployed on Heroku.
 
 
 ## Borrowed
-* I didn't write the embedded google map html, only changed it slightly.
+* The embedded google map is from their tutorial.
+* The map style is from their tutorial.
 * Anything else?

@@ -1,14 +1,19 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     request = require('request'),
+    pg = require('pg'),
+    unittest = require('./test'),
     app = express(),
     port = 5000,
     googleApiKey='AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw';
 // TODO MPE: set google api key restricted
 // TODO what about the sf movie db key?
 
-// TODO check out ways to make maps and forms to look really nice.
-// class up the UI
+// TODO the title autocompletion doesn't work in FF
+
+// TODO make the title input look nicer.
+
+// TODO figure out how to make the map 100% width, 90% height.
 
 // TODO move to actual database
 // columns: title, address, lat, lng
@@ -41,8 +46,10 @@ function movieCallback(error, response, body){
 function getMissingLocations(missing){
     // console.log('Missing movies in DB: '+missing.length);
     for(i = 0; i < missing.length; i++){
-        if(missing[i].locations == undefined)
-            continue; // no location for this movie - throw in log?
+        if(missing[i].locations == undefined){
+            console.log('Could not find location for '+missing[i].title);
+            continue;
+        }
         var add = missing[i].locations.split(' ').join('+');
         var options = {
             url: 'https://maps.googleapis.com/maps/api/geocode/' +
@@ -88,6 +95,9 @@ function addToDB(json, loc){
         lat: loc.lat,
         lng: loc.lng
     });
+
+
+
     // console.log('Added row to DB. '+json.title+' @ '+loc.lat+', '+loc.lng);
 }
 
@@ -118,26 +128,23 @@ app.get('/', function(req, res){
         apiKey: googleApiKey,
         DB: DB
     });
+
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        client.query('SELECT * FROM test_table', function(err, result) {
+        done();
+        if(err){ 
+            console.error(err); 
+            response.send("Error " + err); 
+        }else{ 
+            console.log('pg: ' + result.rows); 
+        }
+        });
+    });
 });
 
-// TODO write unit tests
-// TODO move unit tests to different js file
-// export the functions and maybe pass them the needed functions?
-
-function testAddToDB(){
-    var test = {name: 'testAddToDB', status: ''};
-    return test;
-}
-
-function unittest(){
-    var tests = [];
-    tests.push(testAddToDB());
-    return tests;
-};
-
-app.get('/test', function(req, rest){
+app.get('/test', function(req, res){
     res.render('test', {
-        tests: unittest()
+        tests: unittest(addToDB, DB)
     });
 });
 

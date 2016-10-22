@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>404</title>
-  <link rel="stylesheet" type="text/css" 
-        href="style.css" />
+  <title>San Francisco Movie Service</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+   <script src="mapStyle.js"></script> 
 </head> 
   <body>
     <div class="container">
@@ -37,8 +37,9 @@
         var map;
         function initMap(){
           map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: {lat: <%= DB[0].lat %>, lng: <%= DB[0].lng %>}
+            zoom: 5,
+            center: {lat: <%= DB[0].lat %>, lng: <%= DB[0].lng %>},
+            styles: mapStyle()
           });
           <% for(var i=0; i < DB.length; i++){ %>
             var marker<%= i %> = new google.maps.Marker({
