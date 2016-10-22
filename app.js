@@ -142,8 +142,8 @@ function getPoints(){
                         lat: result.rows[row].lat,
                         lng: result.rows[row].lng
                     });
+                    console.log('new point: ' + points[i]); 
                 }
-                console.log('pg: ' + result.rows); 
             }
         });
     });
@@ -153,6 +153,12 @@ function getPoints(){
         title: '2',
         lat: '3',
         lng: '4'
+    });
+    points.push({
+        address: '5',
+        title: '6',
+        lat: '7',
+        lng: '8'
     });
     return points;
 }
