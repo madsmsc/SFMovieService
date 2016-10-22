@@ -63,11 +63,11 @@ function getMissingLocations(missing){
 }
 
 function geoCallback(error, response, body){
-    console.log('geoCB [start]');
+    // console.log('geoCB [start]');
     if(!error && response.statusCode == 200){
         var result = JSON.parse(body).results[0];
         if(result == undefined){
-            console.log('Result from googleapi undefined');
+            // console.log('Result from googleapi undefined');
             return;
         }
         var loc = result.geometry.location;
