@@ -130,7 +130,7 @@ app.get('/', function(req, res){
     });
 
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT * FROM test_table', function(err, result) {
+        client.query('SELECT * FROM points', function(err, result) {
         done();
         if(err){ 
             console.error(err); 
