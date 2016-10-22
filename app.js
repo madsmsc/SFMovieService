@@ -138,24 +138,24 @@ function getPoints(){
         }
         });
     });
+
+    DB.push({
+        address: '1',
+        title: '2',
+        lat: '3',
+        lng: '4'
+    });
     return DB;
 }
 
 app.get('/', function(req, res){
-    var DB = [];
-                DB.push({
-                    address: '1',
-                    title: '2',
-                    lat: '3',
-                    lng: '4'
-                });
     console.log('Update database.');
     updateDB();
     console.log('Serve index.ejs');
     res.render('index', {
         user: 'mads',
         apiKey: googleApiKey,
-        DB: DB
+        DB: getPoints()
     });
 });
 
