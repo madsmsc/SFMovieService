@@ -89,16 +89,10 @@ function rowInDB(json){
 }
 
 function addToDB(json, loc){
-    DB.push({
-        address: json.locations,
-        title: json.title,
-        lat: loc.lat,
-        lng: loc.lng
-    });
-
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        // locations eller address?
         var sql = 'insert into points (title, address, lat, lng) '+
-                  'values ('+json.title+', '+json.address+', '+
+                  'values ('+json.title+', '+json.locations+', '+
                   json.lat+', '+json.lng+')';
         client.query(sql, function(err, result) {
         done();
@@ -125,16 +119,35 @@ function updateDB(){
     request(movieOptions, movieCallback);
 }
 
-app.get('/', function(req, res){
-    // TODO test data - remove this stuff and just use the DB
+function updateList(){
     DB = [];
-    DB.push({ address: 'address', title: 'title 1', lat: 20, lng: 20 });
-    DB.push({ address: 'address', title: 'title 2', lat: 15, lng: 20 });
-    DB.push({ address: 'address', title: 'title 3', lat: 20, lng: 15 });
-    DB.push({ address: 'address', title: 'title 4', lat: 19, lng: 18 });
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        var sql = 'select * from points';
+        client.query(sql, function(err, result) {
+        done();
+        if(err){ 
+            console.error(err); 
+            response.send("Error " + err); 
+        }else{ 
+            for(row = 0; row < result.rows.length; row++){
+                DB.push({
+                    address: result.rows[row].address,
+                    title: result.rows[row].title,
+                    lat: result.rows[row].lat,
+                    lng: result.rows[row].lng
+                });
+            }
+            console.log('pg: ' + result.rows); 
+        }
+        });
+    });
+}
 
+app.get('/', function(req, res){
     console.log('Update database.');
     updateDB();
+    console.log('Update DB list');
+    updateList();
     console.log('Serve index.ejs');
     res.render('index', {
         user: 'mads',
