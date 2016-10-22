@@ -169,6 +169,15 @@ app.get('/test', function(req, res){
     });
 });
 
+// http://stackoverflow.com/questions/4213351/make-node-js-not-exit-on-error
+process.on('uncaughtException', function (err) {
+  console.log('Caught exception: ' + err);
+});
+
+setTimeout(function () {
+  console.log('This will still run.');
+}, 500);
+
 app.listen(process.env.PORT || port);
 console.log('listening to port ' + process.env.PORT +
             ' or ' + port);

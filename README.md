@@ -11,7 +11,7 @@ if not, make request to google geocode api,
 if the request fails or no location is returned,
 ignore it and wait until next update.
 
-The database is MongoDB and has the following structure.
+The database is PostgreSQL and has the following structure.
 Columns: title, address, lat, lng.
 
 
@@ -40,10 +40,13 @@ It is deployed on Heroku.
 ## Security
 * The API keys to SF DB and Googleapi are not yet restricted.
 * Compromising the SF DB or Googleapi could inject code into my json objects.
-* Anything else?
 
 
 ## Borrowed
 * The embedded google map is from their tutorial.
 * The map style is from their tutorial.
-* Anything else?
+
+
+## Errors
+Errors in the code are not handled very gracefully. 
+The app will usually just exit with status 1.
