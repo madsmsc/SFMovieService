@@ -97,9 +97,8 @@ function rowInDB(json){
 
 function addToDB(json, loc){
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        console.log('pg.connect');
         var sql = 'insert into points (title, address, lat, lng) '+
-                  'values ('+json.title+', '+json.locations+', '+
+                  'values ("'+json.title+'", "'+json.locations+'", '+
                   json.lat+', '+json.lng+');';
         client.query(sql, function(err, result) {
             done();
