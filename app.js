@@ -64,7 +64,7 @@ function geoCallback(error, response, body){
             return;
         }
         var loc = result.geometry.location;
-        // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
+        console.log('geo: lat='+loc.lat+', lng='+loc.lng);
         addToDB(movie, loc);
     }
     else{
@@ -96,7 +96,7 @@ function addToDB(json, loc){
             console.error(err); 
             response.send("Error " + err); 
         }else{ 
-            console.log('pg: ' + result.rows); 
+            console.log('added to pg: ' + result.rows.length); 
         }
         });
     });
