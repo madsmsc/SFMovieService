@@ -25,7 +25,7 @@ function movieCallback(error, response, body){
         var missing = [];
         for(i = 0; i < movies.length; i++){
             if(!rowInDB(movies[i])){
-                console.log(i+': Added movie to missing. '+movies[i].locations);
+                // console.log(i+': Added movie to missing. '+movies[i].locations);
                 missing.push(movies[i]);
             }
             else{
@@ -41,7 +41,7 @@ function movieCallback(error, response, body){
 }
 
 function getMissingLocations(missing){
-    console.log('Missing movies in DB: '+missing.length);
+    // console.log('Missing movies in DB: '+missing.length);
     for(i = 0; i < missing.length; i++){
         if(missing[i].locations == undefined){
             // console.log('Could not find location for '+missing[i].title);
@@ -52,6 +52,7 @@ function getMissingLocations(missing){
             url: 'https://maps.googleapis.com/maps/api/geocode/' +
                     'json?address=' + add + '&key=' + googleApiKey
         }
+        console.log('adding movie: ' + missing[i]);
         if(missing[i] != undefined){
             request(options, geoCallback.bind({movie: missing[i]}));
         }
@@ -171,7 +172,7 @@ app.get('/test', function(req, res){
 
 // http://stackoverflow.com/questions/4213351/make-node-js-not-exit-on-error
 process.on('uncaughtException', function (err) {
-  console.log('Caught exception: ' + err);
+//   console.log('Caught exception: ' + err);
 });
 
 setTimeout(function () {
