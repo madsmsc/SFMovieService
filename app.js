@@ -23,8 +23,11 @@ function movieCallback(error, response, body){
         var missing = [];
         for(i = 0; i < 0; i++){ // TODO  movies.length
             if(!rowInDB(movies[i])){
-                // console.log(i+': Added movie to missing. '+movies[i].locations);
+                console.log(i+': Added movie to missing. '+movies[i].locations);
                 missing.push(movies[i]);
+            }
+            else{
+                console.log(i+': Movie already in DB. '+movies[i].title);
             }
         }
         getMissingLocations(missing);
@@ -97,7 +100,7 @@ function addToDB(json, loc){
         });
     });
 
-    // console.log('Added row to DB. '+json.title+' @ '+loc.lat+', '+loc.lng);
+    console.log('Added row to DB. '+json.title+' @ '+loc.lat+', '+loc.lng);
 }
 
 function updateDB(){
