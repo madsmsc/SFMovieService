@@ -93,8 +93,9 @@ function partial(func /*, 0..n args */) {
 
 function rowInDB(json){
     if(DB.length == 0){
+        console.log('wait 500ms: ' + json2string(json));
         setTimeout(partial(rowInDB, json), 500);
-        return;
+        return true;
     }
 
     for(x = 0; x < DB.length; x++){
@@ -139,6 +140,13 @@ function point2string(point){
            ', lng: ' + point.lng;
 }
 
+function json2string(point){
+    return 'title: ' + point.title + 
+           ', locations: ' + point.locations + 
+           ', lat: ' + point.lat + 
+           ', lng: ' + point.lng;
+}
+
 function simplePoints(points){
     var points = [];
     points.push({
@@ -153,7 +161,8 @@ function simplePoints(points){
         lat: '7',
         lng: '8'
     });
-    return points;
+    // dont make the test points
+    return [];
 }
 
 function servePoints(res){
