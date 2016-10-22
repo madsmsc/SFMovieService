@@ -84,14 +84,12 @@ function geoCallback(error, response, body){
 }
 
 function rowInDB(json){
-    // for(x = 0; x < DB.length; x++){
-    //     if(DB[x].address == json.locations){
-    //         // TODO THIS might have to be commented in again
-    //      //&& DB[i].title == json.title){
-    //         // console.log('Row found in DB.'+json.title);
-    //         return true;
-    //     }
-    // }
+    for(x = 0; x < DB.length; x++){
+        if(DB[x].address == json.locations &&
+           DB[i].title == json.title){
+            return true;
+        }
+    }
     return false;
 }
 
