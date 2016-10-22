@@ -83,7 +83,20 @@ function geoCallback(error, response, body){
     }
 }
 
+function partial(func /*, 0..n args */) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  return function() {
+    var allArguments = args.concat(Array.prototype.slice.call(arguments));
+    return func.apply(this, allArguments);
+  };
+}
+
 function rowInDB(json){
+    if(DB.length == 0){
+        setTimeout(partial(rowInDB, json), 500);
+        return;
+    }
+
     for(x = 0; x < DB.length; x++){
         if(DB[x].address == json.locations &&
            DB[i].title == json.title){
@@ -114,10 +127,7 @@ function addToDB(json, loc){
 function updateDB(){
     var movieOptions = {
         url: 'https://data.sfgov.org/resource/wwmu-gmzc.json',
-        headers: {
-            'limit': '5000'
-            // SF movie api token
-        }
+        headers: {'limit': '5000'}
     }
     request(movieOptions, movieCallback);
 }
@@ -132,14 +142,14 @@ function point2string(point){
 function simplePoints(points){
     var points = [];
     points.push({
-        address: '1',
-        title: '2',
+        address: 'test address 1',
+        title: 'test point 1',
         lat: '3',
         lng: '4'
     });
     points.push({
-        address: '5',
-        title: '6',
+        address: 'test address 2',
+        title: 'test point 2',
         lat: '7',
         lng: '8'
     });
@@ -165,6 +175,7 @@ function servePoints(res){
                     });
                     console.log('new point: ' + point2string(points[row]));
                 }
+                DB = points;
                 res.render('index', {
                     user: 'mads',
                     apiKey: googleApiKey,
@@ -176,10 +187,10 @@ function servePoints(res){
 }
 
 app.get('/', function(req, res){
-    console.log('Update database.');
-    updateDB();
     console.log('Serve index.ejs');
     servePoints(res);
+    console.log('Update database.');
+    updateDB();
 });
 
 app.get('/test', function(req, res){
