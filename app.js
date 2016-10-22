@@ -144,8 +144,6 @@ function getPoints(){
 app.get('/', function(req, res){
     console.log('Update database.');
     updateDB();
-    console.log('Update DB list');
-    updateList();
     console.log('Serve index.ejs');
     res.render('index', {
         user: 'mads',
