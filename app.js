@@ -70,7 +70,7 @@ function geoCallback(error, response, body){
             return;
         }
         var loc = result.geometry.location;
-        // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
+        console.log('geo: lat='+loc.lat+', lng='+loc.lng);
         addToDB(localMovie, loc);
     }
     else{
