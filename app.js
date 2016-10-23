@@ -21,11 +21,11 @@ function movieCallback(error, response, body){
         for(i = 0; i < 20; i++){ /// movies.length
             console.log('movie: '+movies[i].title);
             if(!rowInDB(movies[i])){
-                // console.log(i+': Added movie to missing. '+movies[i].locations);
+                console.log(i+': Added movie to missing. '+movies[i].locations);
                 missing.push(movies[i]);
             }
             else{
-                // console.log(i+': Movie already in DB. '+movies[i].title);
+                console.log(i+': Movie already in DB. '+movies[i].title);
             }
         }
         getMissingLocations(missing);
