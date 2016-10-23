@@ -18,7 +18,7 @@ function movieCallback(error, response, body){
         var movies = JSON.parse(body);
         console.log('Found ' + movies.length + ' SF movie api rows');
         var missing = [];
-        for(i = 0; i < 20; i++){ /// movies.length
+        for(var i = 0; i < 20; i++){ /// movies.length
             console.log('movie: '+movies[i].title);
             if(!rowInDB(movies[i])){
                 console.log(i+': Added movie to missing. '+movies[i].locations);
@@ -88,9 +88,9 @@ function partial(func /*, 0..n args */) {
 }
 
 function rowInDB(json){
-    for(x = 0; x < DB.length; x++){
-        if(DB[x].address == json.locations &&
-           DB[x].title == json.title){
+    for(var i = 0; i < DB.length; i++){
+        if(DB[i].address == json.locations &&
+           DB[i].title == json.title){
             // console.log('point==json: ' + DB[x].address + ', ' +
             //             DB[x].title + ', ' + json.locations + ', ' +
             //             json.title);
@@ -153,14 +153,14 @@ function servePoints(res){
                 console.log('getPoints err: '+err);  
             }else{ 
                 console.log('updateList: result.rows = ' + result.rows.length)
-                for(row = 0; row < result.rows.length; row++){
+                for(var i = 0; i < result.rows.length; i++){
                     points.push({
-                        address: result.rows[row].address,
-                        title: result.rows[row].title,
-                        lat: result.rows[row].lat,
-                        lng: result.rows[row].lng
+                        address: result.rows[i].address,
+                        title: result.rows[i].title,
+                        lat: result.rows[i].lat,
+                        lng: result.rows[i].lng
                     });
-                    // console.log('new point: ' + point2string(points[row]));
+                    // console.log('new point: ' + point2string(points[i]));
                 }
                 DB = points;
                 res.render('index', {
