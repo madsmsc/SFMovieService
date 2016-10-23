@@ -39,7 +39,7 @@ function movieCallback(error, response, body){
 var localMovie;
 
 function getMissingLocations(missing){
-    // console.log('Missing movies in DB: '+missing.length);
+    console.log('Missing movies in DB: '+missing.length);
     for(var i = 0; i < missing.length; i++){
         if(missing[i].locations == undefined){
             // console.log('Could not find location for '+missing[i].title);
@@ -66,7 +66,7 @@ function geoCallback(error, response, body){
     if(!error && response.statusCode == 200){
         var result = JSON.parse(body).results[0];
         if(result == undefined){
-            // console.log('Result from googleapi undefined');
+            console.log('Result from googleapi undefined');
             return;
         }
         var loc = result.geometry.location;
