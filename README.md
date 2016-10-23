@@ -1,7 +1,7 @@
 # SFMovieService
 
 # San Francisco Movie Service 
-
+url: http://mysterious-dawn-70243.herokuapp.com/
 
 ## How it works
 On every get request to the web server, update db:
@@ -13,7 +13,7 @@ ignore it and wait until next update.
 
 The database is PostgreSQL and has the following structure.
 Columns: title, address, lat, lng.
-
+Unique index on the tuple (title, address).
 
 ## Scaling
 If this service was to be used by many users,
@@ -22,12 +22,10 @@ I would probably update it every hour or so.
 Given the nature of the service and the number
 of updates to SF db, that should be fie.
 
-
 ## Test
 Instead of using a unit test framework
 I made my own very simple version that shows each
 unit test on the /test route.
-
 
 ## Stack
 * Node.js
@@ -36,24 +34,14 @@ unit test on the /test route.
 * Request.
 It is deployed on Heroku.
 
-
-## Security
-* The API keys to SF DB and Googleapi are not yet restricted.
-* Compromising the SF DB or Googleapi could inject code into my json objects.
-
-
 ## Borrowed
 * The embedded google map is from their tutorial.
 * The map style is from their tutorial.
-* partial function in app.js, used for passing function references
-  with set parameters.
+* partial function in app.js, used for passing function references with set parameters.
 
-
-## Errors
-Errors in the code are not handled very gracefully. 
-They are just ignored and logged.
-
-
-## Bind
-I couldn't figure out how to bind variables for function referenes,
-so I declared localMovie to be able to use it in the callback.
+## Concerns
+* The API keys to SF DB and Googleapi are not yet restricted.
+* Errors in the code are not handled very gracefully. They are just ignored and logged.
+* The title autocompletion doesn't seem to work in FF. (HTML5)
+* I couldn't figure out how to bind variables for function referenes, so I declared localMovie to be able to use it in the callback.
+* Missing unit tests. And use a test framework like Mocha.

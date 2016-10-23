@@ -8,11 +8,6 @@ var express = require('express'),
     DB = [],
     googleApiKey='AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw';
 
-// TODO MPE: set google api key restricted
-// TODO what about the sf movie db key?
-
-// TODO the title autocompletion doesn't work in FF
-
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -183,7 +178,7 @@ app.get('/', function(req, res){
 
 app.get('/test', function(req, res){
     res.render('test', {
-        tests: unittest(addToDB, DB)
+        tests: unittest()
     });
 });
 
