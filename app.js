@@ -18,7 +18,8 @@ function movieCallback(error, response, body){
         var movies = JSON.parse(body);
         console.log('Found ' + movies.length + ' SF movie api rows');
         var missing = [];
-        for(i = 0; i < movies.length; i++){
+        for(i = 0; i < 10; i++){ /// movies.length
+            console.log('movie: '+movies[i].title);
             if(!rowInDB(movies[i])){
                 // console.log(i+': Added movie to missing. '+movies[i].locations);
                 missing.push(movies[i]);
@@ -110,8 +111,8 @@ function addToDB(json, loc){
         client.query(sql, function(err, result) {
             done();
             if(err){ 
-                console.log('addToDB err: '+err);
-                console.log('sql='+sql); 
+                // console.log('addToDB err: '+err);
+                // console.log('sql='+sql); 
             }else{ 
                 console.log('Added row to DB. '+json.title+
                         ' @ '+loc.lat+', '+loc.lng);
