@@ -18,7 +18,7 @@ function movieCallback(error, response, body){
         var movies = JSON.parse(body);
         console.log('Found ' + movies.length + ' SF movie api rows');
         var missing = [];
-        for(var i = 0; i < 20; i++){ /// movies.length
+        for(var i = 0; i < movies.length; i++){ 
             console.log('movie: '+movies[i].title);
             if(!rowInDB(movies[i])){
                 console.log(i+': Added movie to missing. '+movies[i].locations);
