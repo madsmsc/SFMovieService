@@ -177,11 +177,6 @@ app.get('/', function(req, res){
     servePoints(res);
     console.log('Update database.');
     updateDB();
-
-    for(var i = 0; i < 100; i++){
-        console.log('Update database.');
-        setTimeout(updateDB, 500);
-    }
 });
 
 app.get('/test', function(req, res){
