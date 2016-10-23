@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 function movieCallback(error, response, body){
     if(!error && response.statusCode == 200){
         var movies = JSON.parse(body);
-        console.log('Found ' + movies.length + ' rows');
+        console.log('Found ' + movies.length + ' SF movie api rows');
         var missing = [];
         for(i = 0; i < movies.length; i++){
             if(!rowInDB(movies[i])){
@@ -92,21 +92,16 @@ function partial(func /*, 0..n args */) {
 }
 
 function rowInDB(json){
-    if(DB.length == 0){
-        console.log('wait 500ms: ' + json2string(json));
-        setTimeout(partial(rowInDB, json), 500);
-        return true;
-    }
-
     for(x = 0; x < DB.length; x++){
         if(DB[x].address == json.locations &&
            DB[x].title == json.title){
-               console.log('point==json: ' + DB[x].address + ', ' +
-                           DB[x].title + ', ' + json.locations + ', ' +
-                           json.title);
+            console.log('point==json: ' + DB[x].address + ', ' +
+                        DB[x].title + ', ' + json.locations + ', ' +
+                        json.title);
             return true;
         }
     }
+    console.log('row not found in DB: ' + json2string(json));
     return false;
 }
 
@@ -150,26 +145,8 @@ function json2string(point){
            ', lng: ' + point.lng;
 }
 
-function simplePoints(points){
-    var points = [];
-    points.push({
-        address: 'test address 1',
-        title: 'test point 1',
-        lat: '3',
-        lng: '4'
-    });
-    points.push({
-        address: 'test address 2',
-        title: 'test point 2',
-        lat: '7',
-        lng: '8'
-    });
-    // dont make the test points
-    return [];
-}
-
 function servePoints(res){
-    var points = simplePoints();
+    var points = [];
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var sql = 'select * from points;';
         client.query(sql, function(err, result) {
@@ -185,7 +162,7 @@ function servePoints(res){
                         lat: result.rows[row].lat,
                         lng: result.rows[row].lng
                     });
-                    console.log('new point: ' + point2string(points[row]));
+                    // console.log('new point: ' + point2string(points[row]));
                 }
                 DB = points;
                 res.render('index', {
