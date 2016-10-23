@@ -95,13 +95,15 @@ function rowInDB(json){
     for(x = 0; x < DB.length; x++){
         if(DB[x].address == json.locations &&
            DB[x].title == json.title){
-            console.log('point==json: ' + DB[x].address + ', ' +
-                        DB[x].title + ', ' + json.locations + ', ' +
-                        json.title);
+            // console.log('point==json: ' + DB[x].address + ', ' +
+            //             DB[x].title + ', ' + json.locations + ', ' +
+            //             json.title);
             return true;
         }
     }
-    console.log('row not found in DB: ' + json2string(json));
+    if(json.title == 'When a Man Loves a Woman'){
+        console.log('row not found in DB: ' + json2string(json));
+    }
     return false;
 }
 

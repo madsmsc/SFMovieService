@@ -45,8 +45,15 @@ It is deployed on Heroku.
 ## Borrowed
 * The embedded google map is from their tutorial.
 * The map style is from their tutorial.
+* partial function in app.js, used for passing function references
+  with set parameters.
 
 
 ## Errors
 Errors in the code are not handled very gracefully. 
 They are just ignored and logged.
+
+
+## Bind
+I couldn't figure out how to bind variables for function referenes,
+so I declared localMovie to be able to use it in the callback.
