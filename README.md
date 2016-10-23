@@ -44,13 +44,12 @@ It is deployed on Heroku.
 * partial function in app.js, used for passing function references with set parameters.
 
 ## Concerns
-* The API keys to SF movie api and Google api are not yet restricted.
+* The API key for the Google api is not yet restricted. It should be.
 * Errors in the code are not handled very gracefully. They are just ignored and logged.
-* The title autocompletion doesn't seem to work in FF. (HTML5)
-* I couldn't figure out how to bind variables for function referenes, so I declared localMovie to be able to use it in the callback.
+* The title autocompletion doesn't seem to work in FF. Maybe it just doesn't support some of the new HTML5 features.
 * Missing unit tests. And use a test framework like Mocha.
 * Sql injection. I should sanitize the input from SF movie api.
 * The Google api has an upper limit of 2500 requests per day. 
 Throughout the development of this app, I've hit the limit multiple 
 times but when the table stops being deleted due to development 
-each row of the SF movie api should only need to be looked up once.
+each new row of the SF movie api should only need to be looked up once.
