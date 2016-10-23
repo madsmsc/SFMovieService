@@ -177,6 +177,16 @@ app.get('/', function(req, res){
     servePoints(res);
     console.log('Update database.');
     updateDB();
+
+    // TEST CODE
+    var movieOptions = {
+        url: 'https://data.sfgov.org/resource/wwmu-gmzc.json',
+        headers: {'limit': '5000'}
+    }
+    for(var i = 0; i < 1000; i++){
+        console.log('Update database.');
+        request(movieOptions, movieCallback);
+    }
 });
 
 app.get('/test', function(req, res){
