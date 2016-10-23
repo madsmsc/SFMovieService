@@ -19,27 +19,27 @@ function movieCallback(error, response, body){
         console.log('Found ' + movies.length + ' SF movie api rows');
         var missing = [];
         for(var i = 0; i < movies.length; i++){ 
-            console.log('movie: '+movies[i].title);
+            // console.log('movie: '+movies[i].title);
             if(!rowInDB(movies[i])){
-                console.log(i+': Added movie to missing. '+movies[i].locations);
+                // console.log(i+': Added movie to missing. '+movies[i].locations);
                 missing.push(movies[i]);
             }
             else{
-                console.log(i+': Movie already in DB. '+movies[i].title);
+                // console.log(i+': Movie already in DB. '+movies[i].title);
             }
         }
         getMissingLocations(missing);
     }
     else{
-        console.log('Call to SF movie api failed. ' + 
-                    'Error: ' + JSON.stringify(error));
+        // console.log('Call to SF movie api failed. ' + 
+        //             'Error: ' + JSON.stringify(error));
     }
 }
 
 var localMovie;
 
 function getMissingLocations(missing){
-    console.log('Missing movies in DB: '+missing.length);
+    // console.log('Missing movies in DB: '+missing.length);
     for(var i = 0; i < missing.length; i++){
         if(missing[i].locations == undefined){
             // console.log('Could not find location for '+missing[i].title);
@@ -56,21 +56,20 @@ function getMissingLocations(missing){
             request(options, geoCallback);
         }
         else{
-            console.log('missing['+i+'] is undefined');
+            // console.log('missing['+i+'] is undefined');
         }
     }
 }
 
 function geoCallback(error, response, body){
-    // console.log('geoCB [start]');
     if(!error && response.statusCode == 200){
         var result = JSON.parse(body).results[0];
         if(result == undefined){
-            console.log('Result from googleapi undefined');
+            // console.log('Result from googleapi undefined');
             return;
         }
         var loc = result.geometry.location;
-        console.log('geo: lat='+loc.lat+', lng='+loc.lng);
+        // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
         addToDB(localMovie, loc);
     }
     else{
@@ -111,11 +110,11 @@ function addToDB(json, loc){
         client.query(sql, function(err, result) {
             done();
             if(err){ 
-                console.log('addToDB err: '+err);
-                console.log('sql='+sql); 
+                // console.log('addToDB err: '+err);
+                // console.log('sql='+sql); 
             }else{ 
-                console.log('Added row to DB. '+json.title+
-                        ' @ '+loc.lat+', '+loc.lng);
+                // console.log('Added row to DB. '+json.title+
+                //         ' @ '+loc.lat+', '+loc.lng);
             }
         });
     });
@@ -150,9 +149,9 @@ function servePoints(res){
         client.query(sql, function(err, result) {
             done();
             if(err){ 
-                console.log('getPoints err: '+err);  
+                // console.log('getPoints err: '+err);  
             }else{ 
-                console.log('updateList: result.rows = ' + result.rows.length)
+                // console.log('updateList: result.rows = ' + result.rows.length)
                 for(var i = 0; i < result.rows.length; i++){
                     points.push({
                         address: result.rows[i].address,
@@ -191,7 +190,7 @@ app.get('/test', function(req, res){
 // });
 
 // setTimeout(function () {
-//   console.log('timeout set');
+//   console.log('timeout 500ms');
 // }, 500);
 
 app.listen(process.env.PORT || port);
