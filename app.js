@@ -101,6 +101,9 @@ function rowInDB(json){
     for(x = 0; x < DB.length; x++){
         if(DB[x].address == json.locations &&
            DB[x].title == json.title){
+               console.log('point==json: ' + DB[x].address + ', ' +
+                           DB[x].title + ', ' + json.locations + ', ' +
+                           json.title);
             return true;
         }
     }
@@ -112,7 +115,7 @@ function addToDB(json, loc){
         var sql = 'insert into points (title, address, lat, lng) '+
                   'values (\''+json.title+'\', \''+json.locations+'\', '+
                   loc.lat+', '+loc.lng+');';
-        console.log('sql='+sql);
+        // console.log('sql='+sql);
         client.query(sql, function(err, result) {
             done();
             if(err){ 
