@@ -68,7 +68,7 @@ function geoCallback(error, response, body){
         }
         var loc = result.geometry.location;
         // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
-        addToDB(movie, loc);
+        addToDB(this.movie, loc);
     }
     else{
         // console.log('Call to google api failed. ' + 
