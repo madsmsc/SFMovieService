@@ -106,11 +106,12 @@ function addToDB(json, loc){
         var sql = 'insert into points (title, address, lat, lng) '+
                   'values ('+title+', '+address+', '+
                   loc.lat+', '+loc.lng+');';
-        console.log('sql='+sql);
+        // console.log('sql='+sql);
         client.query(sql, function(err, result) {
             done();
             if(err){ 
-                console.error('addToDB err: '+err); 
+                console.log('addToDB err: '+err);
+                console.log('sql='+sql); 
             }else{ 
                 console.log('Added row to DB. '+json.title+
                         ' @ '+loc.lat+', '+loc.lng);
