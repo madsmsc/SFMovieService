@@ -104,7 +104,7 @@ function addToDB(json, loc){
         var sql = 'insert into points (title, address, lat, lng) '+
                   'values (\''+json.title+'\', \''+json.locations+'\', '+
                   loc.lat+', '+loc.lng+');';
-        // console.log('sql='+sql);
+        console.log('sql='+sql);
         client.query(sql, function(err, result) {
             done();
             if(err){ 

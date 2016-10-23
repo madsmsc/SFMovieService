@@ -20,7 +20,7 @@ If this service was to be used by many users,
 then instead of updating the db on each request,
 I would probably update it every hour or so.
 Given the nature of the service and the number
-of updates to SF db, that should be fie.
+of updates to SF db, that should be fine.
 
 ## Test
 Instead of using a unit test framework
