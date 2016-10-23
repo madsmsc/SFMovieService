@@ -45,3 +45,4 @@ It is deployed on Heroku.
 * The title autocompletion doesn't seem to work in FF. (HTML5)
 * I couldn't figure out how to bind variables for function referenes, so I declared localMovie to be able to use it in the callback.
 * Missing unit tests. And use a test framework like Mocha.
+* Sql injection. I should sanitize the input from SF movie api.
