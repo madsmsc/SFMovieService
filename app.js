@@ -6,8 +6,8 @@ var express = require('express'),
     app = express(),
     port = 5000,
     DB = [],
-    googleApiKey = 'AIzaSyCCZIN6vc_KXWGHQ99NfNbUx1FoXl6Ec9o';
-    // googleApiKey = 'AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw';
+    // googleApiKey = 'AIzaSyCCZIN6vc_KXWGHQ99NfNbUx1FoXl6Ec9o';
+    googleApiKey = 'AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw';
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
