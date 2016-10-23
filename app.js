@@ -110,11 +110,11 @@ function addToDB(json, loc){
         client.query(sql, function(err, result) {
             done();
             if(err){ 
-                // console.log('addToDB err: '+err);
-                // console.log('sql='+sql); 
+                console.log('addToDB err: '+err);
+                console.log('sql='+sql); 
             }else{ 
-                // console.log('Added row to DB. '+json.title+
-                //         ' @ '+loc.lat+', '+loc.lng);
+                console.log('Added row to DB. '+json.title+
+                        ' @ '+loc.lat+', '+loc.lng);
             }
         });
     });
