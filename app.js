@@ -6,8 +6,8 @@ var express = require('express'),
     app = express(),
     port = 5000,
     DB = [],
-    googleApiKey = 'AIzaSyCCZIN6vc_KXWGHQ99NfNbUx1FoXl6Ec9o';
-    //googleApiKey = 'AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw';
+    //googleApiKey = 'AIzaSyCCZIN6vc_KXWGHQ99NfNbUx1FoXl6Ec9o';
+    googleApiKey = 'AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw';
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
@@ -37,8 +37,6 @@ function movieCallback(error, response, body){
     }
 }
 
-var localMovie;
-
 function getMissingLocations(missing){
     // console.log('Missing movies in DB: '+missing.length);
     for(var i = 0; i < missing.length; i++){
@@ -53,8 +51,7 @@ function getMissingLocations(missing){
         }
         if(missing[i] != undefined){
             // console.log('adding movie: ' + missing[i]);
-            localMovie = missing[i];
-            request(options, geoCallback);
+            request(options, geoCallback.bind({movie: missing[i]}));
         }
         else{
             // console.log('missing['+i+'] is undefined');
@@ -71,7 +68,7 @@ function geoCallback(error, response, body){
         }
         var loc = result.geometry.location;
         // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
-        addToDB(localMovie, loc);
+        addToDB(movie, loc);
     }
     else{
         // console.log('Call to google api failed. ' + 
