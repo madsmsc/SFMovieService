@@ -101,9 +101,6 @@ function rowInDB(json){
             return true;
         }
     }
-    if(json.title == 'When a Man Loves a Woman'){
-        console.log('row not found in DB: ' + json2string(json));
-    }
     return false;
 }
 
@@ -116,7 +113,7 @@ function addToDB(json, loc){
         client.query(sql, function(err, result) {
             done();
             if(err){ 
-                console.error('addToDB err: '+err.stack); 
+                console.error('addToDB err: '+err); 
             }else{ 
                 console.log('Added row to DB. '+json.title+
                         ' @ '+loc.lat+', '+loc.lng);
@@ -154,7 +151,7 @@ function servePoints(res){
         client.query(sql, function(err, result) {
             done();
             if(err){ 
-                console.log('getPoints err: '+err.stack);  
+                console.log('getPoints err: '+err);  
             }else{ 
                 console.log('updateList: result.rows = ' + result.rows.length)
                 for(row = 0; row < result.rows.length; row++){
