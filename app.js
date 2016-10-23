@@ -40,7 +40,7 @@ var localMovie;
 
 function getMissingLocations(missing){
     // console.log('Missing movies in DB: '+missing.length);
-    for(i = 0; i < missing.length; i++){
+    for(var i = 0; i < missing.length; i++){
         if(missing[i].locations == undefined){
             // console.log('Could not find location for '+missing[i].title);
             continue;
