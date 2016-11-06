@@ -2,7 +2,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     request = require('request'),
     pg = require('pg'),
-    unittest = require('./test'),
+    controller = require('./controllers/controller')
     app = express(),
     port = 5000,
     DB = [],
@@ -14,173 +14,20 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-function movieCallback(error, response, body){
-    if(!error && response.statusCode == 200){
-        var movies = JSON.parse(body);
-        console.log('Found ' + movies.length + ' SF movie api rows');
-        var missing = [];
-        for(var i = 0; i < movies.length; i++){ 
-            // console.log('movie: '+movies[i].title);
-            if(!rowInDB(movies[i])){
-                // console.log(i+': Added movie to missing. '+movies[i].locations);
-                missing.push(movies[i]);
-            }
-            else{
-                // console.log(i+': Movie already in DB. '+movies[i].title);
-            }
-        }
-        getMissingLocations(missing);
-    }
-    else{
-        // console.log('Call to SF movie api failed. ' + 
-        //             'Error: ' + JSON.stringify(error));
-    }
-}
-
-function getMissingLocations(missing){
-    // console.log('Missing movies in DB: '+missing.length);
-    for(var i = 0; i < missing.length; i++){
-        if(missing[i].locations == undefined){
-            // console.log('Could not find location for '+missing[i].title);
-            continue;
-        }
-        var add = missing[i].locations.split(' ').join('+');
-        var options = {
-            url: 'https://maps.googleapis.com/maps/api/geocode/' +
-                    'json?address=' + add + '&key=' + googleApiKey
-        }
-        if(missing[i] != undefined){
-            // console.log('adding movie: ' + missing[i]);
-            request(options, geoCallback.bind({movie: missing[i]}));
-        }
-        else{
-            // console.log('missing['+i+'] is undefined');
-        }
-    }
-}
-
-function geoCallback(error, response, body){
-    if(!error && response.statusCode == 200){
-        var result = JSON.parse(body).results[0];
-        if(result == undefined){
-            // console.log('Result from googleapi undefined');
-            return;
-        }
-        var loc = result.geometry.location;
-        // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
-        addToDB(this.movie, loc);
-    }
-    else{
-        // console.log('Call to google api failed. ' + 
-        //             'Error: ' + JSON.stringify(error));
-    }
-}
-
-function partial(func /*, 0..n args */) {
-  var args = Array.prototype.slice.call(arguments, 1);
-  return function() {
-    var allArguments = args.concat(Array.prototype.slice.call(arguments));
-    return func.apply(this, allArguments);
-  };
-}
-
-function rowInDB(json){
-    for(var i = 0; i < DB.length; i++){
-        if(DB[i].address == json.locations &&
-           DB[i].title == json.title){
-            // console.log('point==json: ' + DB[x].address + ', ' +
-            //             DB[x].title + ', ' + json.locations + ', ' +
-            //             json.title);
-            return true;
-        }
-    }
-    return false;
-}
-
-function addToDB(json, loc){
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        var title = "'"+json.title.split("'").join("''")+"'";
-        var address = "'"+json.locations.split("'").join("''")+"'";
-        var sql = 'insert into points (title, address, lat, lng) '+
-                  'values ('+title+', '+address+', '+
-                  loc.lat+', '+loc.lng+');';
-        // console.log('sql='+sql);
-        client.query(sql, function(err, result) {
-            done();
-            if(err){ 
-                console.log('addToDB err: '+err);
-                console.log('sql='+sql); 
-            }else{ 
-                console.log('Added row to DB. '+json.title+
-                        ' @ '+loc.lat+', '+loc.lng);
-            }
-        });
-    });
-}
-
-function updateDB(){
-    var movieOptions = {
-        url: 'https://data.sfgov.org/resource/wwmu-gmzc.json',
-        headers: {'limit': '5000'}
-    }
-    request(movieOptions, movieCallback);
-}
-
-function point2string(point){
-    return 'title: ' + point.title + 
-           ', address: ' + point.address + 
-           ', lat: ' + point.lat + 
-           ', lng: ' + point.lng;
-}
-
-function json2string(point){
-    return 'title: ' + point.title + 
-           ', locations: ' + point.locations + 
-           ', lat: ' + point.lat + 
-           ', lng: ' + point.lng;
-}
-
-function servePoints(res){
-    var points = [];
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        var sql = 'select * from points;';
-        client.query(sql, function(err, result) {
-            done();
-            if(err){ 
-                // console.log('getPoints err: '+err);  
-            }else{ 
-                // console.log('updateList: result.rows = ' + result.rows.length)
-                for(var i = 0; i < result.rows.length; i++){
-                    points.push({
-                        address: result.rows[i].address,
-                        title: result.rows[i].title,
-                        lat: result.rows[i].lat,
-                        lng: result.rows[i].lng
-                    });
-                    // console.log('new point: ' + point2string(points[i]));
-                }
-                DB = points;
-                res.render('index', {
-                    user: 'mads',
-                    apiKey: googleApiKey,
-                    DB: points
-                });
-            }
-        });
-    });
-}
-
 app.get('/', function(req, res){
     console.log('Serve index.ejs');
-    servePoints(res);
-    console.log('Update database.');
-    updateDB();
-});
+    pointDAO.getPoints(
+        function(points){
+            res.render('index', {
+                user: 'mads',
+                apiKey: googleApiKey,
+                points: points
+            });
+        }
+    );
 
-app.get('/test', function(req, res){
-    res.render('test', {
-        tests: unittest()
-    });
+    console.log('Update database.');
+    controller.updateDB();
 });
 
 // process.on('uncaughtException', function (err) {

@@ -27,9 +27,11 @@ The code was all written with Emacs and Visual Studio Code.
 If this service was to be used by many users, then instead of updating the db on each request, I would probably update it every hour or so.
 That should be fine, given the nature of the service and the number of updates to the SF movie api.
 
-## Test
-Instead of using a unit test framework I made my own very simple version that shows each unit test on the /test route.
-Unfortunately I didn't have time to write any unit tests.
+## Testing
+Run the tests: "mocha tests --recursive".
+
+The unittests are written and run using the mocha framework and
+the chai framework for assertions. 
 
 ## Stack
 * Node.js
@@ -37,19 +39,22 @@ Unfortunately I didn't have time to write any unit tests.
 * ejs
 * Request.
 It is deployed on Heroku.
+Structure is based on MVC. 
+The routing is seperated from the logic (controllers).
+The domain layer is structured using a DAO/DTO.
 
 ## Borrowed
 * The embedded google map is from their tutorial.
 * The map style is from their tutorial.
-* partial function in app.js, used for passing function references with set parameters.
+* partial function in app.js, used for passing function 
+references with set parameters.
 
-## Concerns
+## TODO
 * The API key for the Google api is not yet restricted. It should be.
-* Errors in the code are not handled very gracefully. They are just ignored and logged.
-* The title autocompletion doesn't seem to work in FF. Maybe it just doesn't support some of the new HTML5 features.
-* Missing unit tests. And use a test framework like Mocha.
+* Errors in the code are not handled very gracefully. 
+They are just ignored and logged.
+* The title autocompletion doesn't seem to work in FF. 
+Maybe it just doesn't support some of the new HTML5 features.
 * Sql injection. I should sanitize the input from SF movie api.
-* The Google api has an upper limit of 2500 requests per day. 
-Throughout the development of this app, I've hit the limit multiple 
-times but when the table stops being deleted due to development 
-each new row of the SF movie api should only need to be looked up once.
+* Implement DTOs as well.
+* Use stubs to do testing of DOA methods. Maybe use Sinon framework.

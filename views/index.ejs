@@ -13,8 +13,8 @@
       <input list="titles" id="titlesId"/>
       <datalist id="titles">
         <select id="selectId">
-          <% for(var i=0; i < DB.length; i++){ %>
-            <option value="<%= DB[i].title %>" label="<%= i %>"/>
+          <% for(var i=0; i < points.length; i++){ %>
+            <option value="<%= points[i].title %>" label="<%= i %>"/>
           <% } %>
         </select>
       </datalist>
@@ -26,9 +26,9 @@
         function gotoPosition(){
           var selected = document.getElementById('titlesId').value;
           var options = document.getElementById('selectId').options;
-          <% for(i=0; i < DB.length; i++){ %>
+          <% for(i=0; i < points.length; i++){ %>
             if(options[<%= i %>].value == selected){ 
-              map.setCenter({lat: <%= DB[i].lat %>, lng: <%= DB[i].lng %>});
+              map.setCenter({lat: <%= points[i].lat %>, lng: <%= points[i].lng %>});
               return;
             }
           <% } %>
@@ -38,13 +38,13 @@
         function initMap(){
           map = new google.maps.Map(document.getElementById('map'), {
             zoom: 5,
-            center: {lat: <%= DB[0].lat %>, lng: <%= DB[0].lng %>},
+            center: {lat: <%= points[0].lat %>, lng: <%= points[0].lng %>},
             styles: mapStyle()
           });
-          <% for(var i=0; i < DB.length; i++){ %>
+          <% for(var i=0; i < points.length; i++){ %>
             var marker<%= i %> = new google.maps.Marker({
-              position: {lat: <%= DB[i].lat %>, lng: <%= DB[i].lng %>},
-              title: "<%= DB[i].title %>",
+              position: {lat: <%= points[i].lat %>, lng: <%= points[i].lng %>},
+              title: "<%= points[i].title %>",
               map: map
             });
           <% } %>
