@@ -8,6 +8,14 @@ var express = require('express'),
     googleApiKey = 'AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw',
     exports = module.exports = {};
 
+exports.setDB = function(points){
+    DB = points;
+}
+
+exports.getGoogleApiKey = function(){
+    return googleApiKey;
+}
+
 exports.movieCallback = function(error, response, body){
     if(!error && response.statusCode == 200){
         var movies = JSON.parse(body);
@@ -15,7 +23,7 @@ exports.movieCallback = function(error, response, body){
         var missing = [];
         for(var i = 0; i < movies.length; i++){ 
             // console.log('movie: '+movies[i].title);
-            if(!rowInDB(movies[i])){
+            if(!exports.rowInDB(movies[i])){
                 // console.log(i+': Added movie to missing. '+movies[i].locations);
                 missing.push(movies[i]);
             }
@@ -88,7 +96,7 @@ exports.updateDB = function(){
         url: 'https://data.sfgov.org/resource/wwmu-gmzc.json',
         headers: {'limit': '5000'}
     }
-    request(movieOptions, movieCallback);
+    request(movieOptions, exports.movieCallback);
 }
 
 exports.point2string = function(point){

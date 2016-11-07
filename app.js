@@ -1,13 +1,9 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
-    request = require('request'),
-    pg = require('pg'),
-    controller = require('./controllers/controller')
+    controller = require('./controllers/controller'),
+    pointDAO = require('./model/pointDAO'),
     app = express(),
-    port = 5000,
-    DB = [],
-    // googleApiKey = 'AIzaSyCCZIN6vc_KXWGHQ99NfNbUx1FoXl6Ec9o';
-    googleApiKey = 'AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw';
+    port = 5000;
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
@@ -20,14 +16,14 @@ app.get('/', function(req, res){
         function(points){
             res.render('index', {
                 user: 'mads',
-                apiKey: googleApiKey,
+                apiKey: controller.getGoogleApiKey(),
                 points: points
             });
+            controller.setDB(points);
+            console.log('Update database.');
+            controller.updateDB();
         }
     );
-
-    console.log('Update database.');
-    controller.updateDB();
 });
 
 // process.on('uncaughtException', function (err) {

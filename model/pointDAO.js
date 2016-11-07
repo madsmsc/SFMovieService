@@ -1,4 +1,5 @@
-var exports = module.exports = {};
+var pg = require('pg'),
+    exports = module.exports = {};
 
 exports.getPoints = function(callback){
     var points = [];
