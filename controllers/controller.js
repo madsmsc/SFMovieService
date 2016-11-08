@@ -80,11 +80,12 @@ exports.geoCallback = function(error, response, body){
 
 exports.rowInDB = function(json){
     for(var i = 0; i < DB.length; i++){
+        // console.log('db.address=' + DB[i].address + 
+        //             ', db.title=' + DB[i].title + 
+        //             ', json.locations=' + json.locations + 
+        //             ', json.title=' + json.title);
         if(DB[i].address == json.locations &&
            DB[i].title == json.title){
-            // console.log('point==json: ' + DB[x].address + ', ' +
-            //             DB[x].title + ', ' + json.locations + ', ' +
-            //             json.title);
             return true;
         }
     }

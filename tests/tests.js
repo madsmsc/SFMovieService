@@ -34,6 +34,49 @@ describe('Controller', function(){
                       'lat: -12.87, lng: 25.92';
             expect(controller.json2string(point)).to.equal(str); 
         });
+
+    it('rowInDB(json) empty doesnt have the row',
+        function(){
+            var json = {
+                locations: 'locations_123',
+                title: 'title_123',
+                lat: 11, lng: 22
+            };
+            controller.setDB([]);
+            expect(controller.rowInDB(json)).to.equal(false);
+        });
+
+    it('rowInDB(json) not empty doesnt have the row',
+        function(){
+            var point = {
+                address: 'locations_123',
+                title: 'title_123',
+                lat: 12, lng: 22
+            };
+            var json = {
+                locations: 'locations_123',
+                title: 'title_123',
+                lat: 11, lng: 22
+            };
+            controller.setDB([]);
+            expect(controller.rowInDB(json)).to.equal(false);
+        });
+
+    it('rowInDB(json) does have the row',
+        function(){
+            var point = {
+                address: 'locations_123',
+                title: 'title_123',
+                lat: 11, lng: 22
+            };
+            var json = {
+                locations: 'locations_123',
+                title: 'title_123',
+                lat: 11, lng: 22
+            };
+            controller.setDB([point]);
+            expect(controller.rowInDB(json)).to.equal(true);
+        });
 });
 
 describe('PointDAO', function(){
