@@ -1,8 +1,8 @@
 # SFMovieService
 
 (San Francisco Movie Service)
- 
-url: http://mysterious-dawn-70243.herokuapp.com/
+
+URL: http://mysterious-dawn-70243.herokuapp.com/
 
 ## How it works
 On every get request to the web server, first serve the index page with a list of all the points saved in the database.
@@ -33,6 +33,7 @@ That should be fine, given the nature of the service and the number of updates t
 * Expressjs
 * ejs
 * Request.
+
 It is deployed on Heroku.  
 Structure is based on MVC.  
 The routing is seperated from the logic (controllers).  
