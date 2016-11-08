@@ -53,7 +53,7 @@ exports.getMissingLocations = function(missing){
         }
         if(missing[i] != undefined){
             // console.log('adding movie: ' + missing[i]);
-            request(options, geoCallback.bind({movie: missing[i]}));
+            request(options, exports.geoCallback.bind({movie: missing[i]}));
         }
         else{
             // console.log('missing['+i+'] is undefined');
