@@ -31,7 +31,7 @@ exports.movieCallback = function(error, response, body){
                 // console.log(i+': Movie already in DB. '+movies[i].title);
             }
         }
-        getMissingLocations(missing);
+        exports.getMissingLocations(missing);
     }
     else{
         // console.log('Call to SF movie api failed. ' + 
