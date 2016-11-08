@@ -41,7 +41,7 @@ exports.addPointSql = function(json, loc){
 
 exports.addPoint = function(json, loc){
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        var sql = addPointSql(json, loc);
+        var sql = exports.addPointSql(json, loc);
         // console.log('sql='+sql);
         if(client == null || client == undefined){
             console.log('addToDB: pg.connect failed');
