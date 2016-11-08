@@ -1,6 +1,7 @@
 # SFMovieService
 
-# San Francisco Movie Service 
+(San Francisco Movie Service)
+ 
 url: http://mysterious-dawn-70243.herokuapp.com/
 
 ## How it works
@@ -9,9 +10,9 @@ Then make a request to the SF movie api and for each movie, check if it is in my
 If not, make a request to Google geocode api. If the request fails or no location is returned, ignore it and wait until next update.
 If the request goes well, insert the row into my database.
 
-The database is PostgreSQL and has the following structure.
-Columns: title, address, lat, lng.
-Unique index on the tuple (title, address).
+The database is PostgreSQL and has the following structure.  
+Columns: title, address, lat, lng.  
+Unique index on the tuple (title, address).  
 
 ## My experience
 When I started this app, I didn't have a lot of experience with Nodejs and event driven frameworks in general. 
@@ -32,14 +33,14 @@ That should be fine, given the nature of the service and the number of updates t
 * Expressjs
 * ejs
 * Request.
-It is deployed on Heroku.
-Structure is based on MVC. 
-The routing is seperated from the logic (controllers).
+It is deployed on Heroku.  
+Structure is based on MVC.  
+The routing is seperated from the logic (controllers).  
 The domain layer is structured using a DAO/DTO.
 
 ## Borrowed
-* The embedded google map is from their tutorial.
-* The map style is from their tutorial.
+* The embedded google map is from their tutorial.  
+* The map style is from their tutorial.  
 * partial function in app.js, used for passing function 
 references with set parameters.
 
@@ -55,8 +56,8 @@ Maybe it just doesn't support some of the new HTML5 features.
 
 ## Testing
 The unittests are written and run using the mocha framework and
-the chai framework for assertions.    
-The output from running the tests should look something like the below:
+the chai framework for assertions.  
+The output from running the tests should look something like the below:  
 ```    
 $ mocha tests  
 
