@@ -55,23 +55,22 @@ Maybe it just doesn't support some of the new HTML5 features.
 
 ## Testing
 The unittests are written and run using the mocha framework and
-the chai framework for assertions. 
-Run the tests: "mocha tests".
-The output should look something like the below:
-$ mocha tests
-
-  Controller
-    √ json2string(point) should return null when given null
-    √ point2string(point) should handle floats
-    √ json2string(point) should handle floats
-    √ rowInDB(json) empty doesnt have the row
-    √ rowInDB(json) not empty doesnt have the row
-    √ rowInDB(json) does have the row
-
-  PointDAO
-    √ addPointSql(json, loc) simple version
-    √ addPointSql(json, loc) with spaces
-    √ addPointSql(json, loc) with fancy symbols
-
-
+the chai framework for assertions.  
+Run the tests: "mocha tests".  
+The output should look something like the below:  
+$ mocha tests  
+  
+  Controller  
+    √ json2string(point) should return null when given null    
+    √ point2string(point) should handle floats  
+    √ json2string(point) should handle floats  
+    √ rowInDB(json) empty doesnt have the row  
+    √ rowInDB(json) not empty doesnt have the row  
+    √ rowInDB(json) does have the row  
+  
+  PointDAO  
+    √ addPointSql(json, loc) simple version  
+    √ addPointSql(json, loc) with spaces  
+    √ addPointSql(json, loc) with fancy symbols  
+  
   9 passing (29ms)
