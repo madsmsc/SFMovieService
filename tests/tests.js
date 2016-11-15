@@ -32,6 +32,25 @@ describe('Controller', function(){
 });
 
 describe('points', function(){
+    it('setPos(pos) simple version',
+        function(){
+            var point = new points.Point('a', 't', 0, 0);
+            var pos = new points.Point('x', 'y', 1, 2);
+            point.setPos(pos);
+            var samePos = pos.lat == point.lat && pos.lng == point.lng;
+            expect(samePos).to.equal(true);
+        });
+
+    it('setPos(pos) same address and title',
+        function(){
+            var point = new points.Point('a', 't', 0, 0);
+            var pos = new points.Point('x', 'y', 34.1, -76.2);
+            point.setPos(pos);
+            var samePos = pos.lat == point.lat && pos.lng == point.lng;
+            var original = point.address == 'a' && point.title == 't';
+            expect(samePos && original).to.equal(true);
+        });
+
     it('addPointSql(point) simple version',
         function(){
             var point = new points.Point(

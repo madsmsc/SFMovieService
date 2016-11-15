@@ -43,9 +43,8 @@ exports.getPoints = function(callback){
 exports.addPointSql = function(point){
     var title = "'"+point.title.split("'").join("''")+"'";
     var address = "'"+point.address.split("'").join("''")+"'";
-    var sql = 'insert into points (title, address, lat, lng) '+
-                'values ('+title+', '+address+', '+
-                point.lat+', '+point.lng+');';
+    var sql = 'insert into points (title, address, lat, lng) values ('+
+              title+', '+address+', '+point.lat+', '+point.lng+');';
     return sql;
 }
 
@@ -63,7 +62,7 @@ exports.addPoint = function(point){
                 console.log('addToDB err: '+err+'\nsql='+sql); 
             }else{ 
                 console.log('Added row to DB. '+point.title+
-                        ' @ '+point.lat+', '+point.lng);
+                            ' @ '+point.lat+', '+point.lng);
             }
         });
     });
