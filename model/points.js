@@ -1,6 +1,18 @@
 var pg = require('pg'),
     exports = module.exports = {};
 
+exports.Point = function(address, title, lat, lng){
+    this.address = address;
+    this.title = title;
+    this.lat = lat;
+    this.lng = lng;
+}
+
+exports.Point.prototype.setPos = function(pos){
+    this.lat = pos.lat;
+    this.lng = pos.lng;
+}
+
 exports.getPoints = function(callback){
     var points = [];
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
@@ -16,12 +28,10 @@ exports.getPoints = function(callback){
             }else{ 
                 // console.log('updateList: result.rows = ' + result.rows.length)
                 for(var i = 0; i < result.rows.length; i++){
-                    points.push({
-                        address: result.rows[i].address,
-                        title: result.rows[i].title,
-                        lat: result.rows[i].lat,
-                        lng: result.rows[i].lng
-                    });
+                    var point = new exports.Point(
+                        result.rows[i].address, result.rows[i].title,
+                        result.rows[i].lat, result.rows[i].lng);
+                    points.push(point);
                     // console.log('new point: ' + point2string(points[i]));
                 }
                 callback(points);
@@ -30,31 +40,30 @@ exports.getPoints = function(callback){
     });
 }
 
-exports.addPointSql = function(json, loc){
-    var title = "'"+json.title.split("'").join("''")+"'";
-    var address = "'"+json.locations.split("'").join("''")+"'";
+exports.addPointSql = function(point){
+    var title = "'"+point.title.split("'").join("''")+"'";
+    var address = "'"+point.address.split("'").join("''")+"'";
     var sql = 'insert into points (title, address, lat, lng) '+
                 'values ('+title+', '+address+', '+
-                loc.lat+', '+loc.lng+');';
+                point.lat+', '+point.lng+');';
     return sql;
 }
 
-exports.addPoint = function(json, loc){
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        var sql = exports.addPointSql(json, loc);
+exports.addPoint = function(point){
+    pg.connect(process.env.DATABASE_URL, function(err, client, done){
+        var sql = exports.addPointSql(point);
         // console.log('sql='+sql);
         if(client == null || client == undefined){
             console.log('addToDB: pg.connect failed');
             return;
         }
-        client.query(sql, function(err, result) {
+        client.query(sql, function(err, result){
             done();
             if(err){ 
-                console.log('addToDB err: '+err);
-                console.log('sql='+sql); 
+                console.log('addToDB err: '+err+'\nsql='+sql); 
             }else{ 
-                console.log('Added row to DB. '+json.title+
-                        ' @ '+loc.lat+', '+loc.lng);
+                console.log('Added row to DB. '+point.title+
+                        ' @ '+point.lat+', '+point.lng);
             }
         });
     });

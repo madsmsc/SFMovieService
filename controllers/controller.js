@@ -2,7 +2,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     request = require('request'),
     pg = require('pg'),
-    pointDAO = require('../model/pointDAO'),
+    points = require('../model/points'),
     DB = [],
     // googleApiKey = 'AIzaSyCCZIN6vc_KXWGHQ99NfNbUx1FoXl6Ec9o';
     googleApiKey = 'AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw',
@@ -22,10 +22,12 @@ exports.movieCallback = function(error, response, body){
         console.log('Found ' + movies.length + ' SF movie api rows');
         var missing = [];
         for(var i = 0; i < movies.length; i++){ 
-            // console.log('movie: '+movies[i].title);
-            if(!exports.rowInDB(movies[i])){
+            var point = new points.Point(
+                movies[i].address, movies[i].title,
+                movies[i].lat, movies[i].lng);
+            if(!exports.rowInDB(point)){
                 // console.log(i+': Added movie to missing. '+movies[i].locations);
-                missing.push(movies[i]);
+                missing.push(point);
             }
             else{
                 // console.log(i+': Movie already in DB. '+movies[i].title);
@@ -53,7 +55,7 @@ exports.getMissingLocations = function(missing){
         }
         if(missing[i] != undefined){
             // console.log('adding movie: ' + missing[i]);
-            request(options, exports.geoCallback.bind({movie: missing[i]}));
+            request(options, exports.geoCallback.bind({point: missing[i]}));
         }
         else{
             // console.log('missing['+i+'] is undefined');
@@ -68,9 +70,9 @@ exports.geoCallback = function(error, response, body){
             // console.log('Result from googleapi undefined');
             return;
         }
-        var loc = result.geometry.location;
+        this.point.setPos(result.geometry.location);
         // console.log('geo: lat='+loc.lat+', lng='+loc.lng);
-        pointDAO.addPoint(this.movie, loc);
+        points.addPoint(this.point);
     }
     else{
         // console.log('Call to google api failed. ' + 
@@ -78,14 +80,10 @@ exports.geoCallback = function(error, response, body){
     }
 }
 
-exports.rowInDB = function(json){
+exports.rowInDB = function(point){
     for(var i = 0; i < DB.length; i++){
-        // console.log('db.address=' + DB[i].address + 
-        //             ', db.title=' + DB[i].title + 
-        //             ', json.locations=' + json.locations + 
-        //             ', json.title=' + json.title);
-        if(DB[i].address == json.locations &&
-           DB[i].title == json.title){
+        if(DB[i].address == point.address &&
+           DB[i].title == point.title){
             return true;
         }
     }
@@ -98,22 +96,6 @@ exports.updateDB = function(){
         headers: {'limit': '5000'}
     }
     request(movieOptions, exports.movieCallback);
-}
-
-exports.point2string = function(point){
-    return 'title: ' + point.title + 
-           ', address: ' + point.address + 
-           ', lat: ' + point.lat + 
-           ', lng: ' + point.lng;
-}
-
-exports.json2string = function(point){
-    if(point == null)
-        return null;
-    return 'title: ' + point.title + 
-           ', locations: ' + point.locations + 
-           ', lat: ' + point.lat + 
-           ', lng: ' + point.lng;
 }
 
 function partial(func /*, 0..n args */) {

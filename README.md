@@ -77,3 +77,9 @@ $ mocha tests
   
   9 passing (29ms)
 ```
+
++++++++++++++++++++++
++++++++++++++++++++++
+WHEN ALL THE TESTS ARE WRITTEN, PASTE IN A NEW SNAPSHOT OF THE TERMINAL HERE !
++++++++++++++++++++++
++++++++++++++++++++++
