@@ -32,13 +32,18 @@ exports.movieCallback = function(error, response, body) {
 describe('Controller', function() {
     it('movieCallback(error, response, body) simple',
         function() {
-            controller.getMissingLocations = function() {
-                expect(true).to.equal(true);
+            var tmp = controller.rowInDB;
+            controller.rowInDB = function(point) {
+                return false;
+            };
+            controller.getMissingLocations = function(missing) {
+                expect(missing.length).to.equal(1);
             };
             var res = {statusCode: 200};
-            var body = [{address: 'a', title: 't', lat: 10, lng: 20},
-                        {address: 'a', title: 't', lat: 10, lng: 20}];
+            var body = '[{"address": "a", "title": "t",'+
+                         '"lat": "10", "lng": "20"}]';
             controller.movieCallback(null, res, body);
+            controller.rowInDB = tmp;
         });
 
     it('rowInDB(point) empty doesnt have the row',

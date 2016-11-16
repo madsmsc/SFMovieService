@@ -92,6 +92,9 @@ WHEN ALL THE TESTS ARE WRITTEN, PASTE IN A NEW SNAPSHOT OF THE TERMINAL HERE !
 
 simple tests for both callbacks in controller
 
+make sure to reset the controller/points on every test...
+  should I require them in each test?
+
 +++++++++++++++++++++
 +++++++++++++++++++++
 

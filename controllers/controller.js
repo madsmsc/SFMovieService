@@ -16,7 +16,6 @@ exports.getGoogleApi = function() {
 
 exports.movieCallback = function(error, response, body) {
     if(!error && response.statusCode == 200) {
-        console.log('body: '+body);
         var movies = JSON.parse(body);
         console.log('Found ' + movies.length + ' SF movie api rows');
         var missing = [];
