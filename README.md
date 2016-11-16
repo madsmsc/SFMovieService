@@ -87,19 +87,10 @@ $ mocha tests
 
 +++++++++++++++++++++
 +++++++++++++++++++++
+
 WHEN ALL THE TESTS ARE WRITTEN, PASTE IN A NEW SNAPSHOT OF THE TERMINAL HERE !
 
 simple tests for both callbacks in controller
-
-USE ECMAScript 6 (check out: http://es6-features.org/)
-  var/let/...
-  rewrite exporting/modules
-  rewrite class definitions
-
-check if my char/string comparisons with == is ok or if === should be used.
-
-http://x-team.com/2016/05/setting-up-javascript-testing-tools-for-es6/
-make npm start and test work with es6
 
 +++++++++++++++++++++
 +++++++++++++++++++++

@@ -16,6 +16,7 @@ exports.getGoogleApi = function() {
 
 exports.movieCallback = function(error, response, body) {
     if(!error && response.statusCode == 200) {
+        console.log('body: '+body);
         var movies = JSON.parse(body);
         console.log('Found ' + movies.length + ' SF movie api rows');
         var missing = [];
@@ -33,7 +34,7 @@ exports.movieCallback = function(error, response, body) {
         }
         exports.getMissingLocations(missing);
     } else {
-        // console.log('Call to SF movie api failed. ' + 
+        // console.log('Call to SF movie api failed. ' +
         //             'Error: ' + JSON.stringify(error));
     }
 };

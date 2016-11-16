@@ -3,7 +3,44 @@ var chai = require('chai'),
     controller = require('../controllers/controller'),
     points = require('../model/points');
 
-describe('Controller', function(){
+/*
+exports.movieCallback = function(error, response, body) {
+    if(!error && response.statusCode == 200) {
+        var movies = JSON.parse(body);
+        console.log('Found ' + movies.length + ' SF movie api rows');
+        var missing = [];
+        for(var i = 0; i < movies.length; i++) {
+            var point = new points.Point(
+                movies[i].address, movies[i].title,
+                movies[i].lat, movies[i].lng);
+            if(!exports.rowInDB(point)) {
+                // console.log(i+': Added movie to missing. '+
+                //             movies[i].locations);
+                missing.push(point);
+            } else {
+                // console.log(i+': Movie already in DB. '+movies[i].title);
+            }
+        }
+        exports.getMissingLocations(missing);
+    } else {
+        // console.log('Call to SF movie api failed. ' +
+        //             'Error: ' + JSON.stringify(error));
+    }
+};
+*/
+
+describe('Controller', function() {
+    it('movieCallback(error, response, body) simple',
+        function() {
+            controller.getMissingLocations = function() {
+                expect(true).to.equal(true);
+            };
+            var res = {statusCode: 200};
+            var body = [{address: 'a', title: 't', lat: 10, lng: 20},
+                        {address: 'a', title: 't', lat: 10, lng: 20}];
+            controller.movieCallback(null, res, body);
+        });
+
     it('rowInDB(point) empty doesnt have the row',
         function() {
             var point = new points.Point(
