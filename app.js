@@ -6,26 +6,26 @@ var express = require('express'),
     port = 5000;
 
 app.set('view engine', 'ejs');
-app.use(express.static("public"));
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
     console.log('Serve index.ejs');
     points.getPoints(callback(res));
 });
 
-function callback(res){
-    return function(pointList){
+function callback(res) {
+    return function(pointList) {
         res.render('index', {
             user: 'mads',
-            apiKey: controller.getGoogleApiKey(),
-            points: pointList
+            googleApi: controller.getGoogleApi(),
+            points: pointList,
         });
         controller.setDB(pointList);
         console.log('Update database.');
         controller.updateDB();
-    }
+    };
 }
 
 // process.on('uncaughtException', function (err) {
@@ -37,6 +37,4 @@ function callback(res){
 // }, 500);
 
 app.listen(process.env.PORT || port);
-console.log('listening to port ' + process.env.PORT +
-            ' or ' + port);
-            
+console.log('listening to port '+process.env.PORT+' or '+port);

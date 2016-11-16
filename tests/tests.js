@@ -5,7 +5,7 @@ var chai = require('chai'),
 
 describe('Controller', function(){
     it('rowInDB(point) empty doesnt have the row',
-        function(){
+        function() {
             var point = new points.Point(
                 'locations_123', 'title_123', 11, 22);
             controller.setDB([]);
@@ -13,7 +13,7 @@ describe('Controller', function(){
         });
 
     it('rowInDB(point) not empty doesnt have the row',
-        function(){
+        function() {
             var point = new points.Point(
                 'locations_123', 'title_123', 12, 22);
             var point2 = new points.Point(
@@ -23,7 +23,7 @@ describe('Controller', function(){
         });
 
     it('rowInDB(point) does have the row',
-        function(){
+        function() {
             var point = new points.Point(
                 'locations_123', 'title_123', 12, 22);
             controller.setDB([point]);
@@ -33,7 +33,7 @@ describe('Controller', function(){
 
 describe('points', function(){
     it('setPos(pos) simple version',
-        function(){
+        function() {
             var point = new points.Point('a', 't', 0, 0);
             var pos = new points.Point('x', 'y', 1, 2);
             point.setPos(pos);
@@ -42,7 +42,7 @@ describe('points', function(){
         });
 
     it('setPos(pos) same address and title',
-        function(){
+        function() {
             var point = new points.Point('a', 't', 0, 0);
             var pos = new points.Point('x', 'y', 34.1, -76.2);
             point.setPos(pos);
@@ -52,29 +52,29 @@ describe('points', function(){
         });
 
     it('addPointSql(point) simple version',
-        function(){
+        function() {
             var point = new points.Point(
                 'locations_123', 'title_123', 23.8, 18.2);
             var str = 'insert into points (title, address, lat, lng) '+
-                      "values ('title_123', 'locations_123', 23.8, 18.2);"; 
+                      'values (\'title_123\', \'locations_123\', 23.8, 18.2);';
             expect(points.addPointSql(point)).to.equal(str);
         });
 
     it('addPointSql(point) with spaces',
-        function(){
+        function() {
             var point = new points.Point(
                 'locations 123', 'title 123', 23.8, 18.2);
             var str = 'insert into points (title, address, lat, lng) '+
-                      "values ('title 123', 'locations 123', 23.8, 18.2);"; 
+                      'values (\'title 123\', \'locations 123\', 23.8, 18.2);';
             expect(points.addPointSql(point)).to.equal(str);
         });
 
     it('addPointSql(point) with fancy symbols',
-        function(){
+        function() {
             var point = new points.Point(
                 '?><{(--', '#(@!&#!<<\'', 23.8, 18.2);
             var str = 'insert into points (title, address, lat, lng) '+
-                      "values ('#(@!&#!<<\'\'', '?><{(--', 23.8, 18.2);"; 
+                      'values (\'#(@!&#!<<\'\'\', \'?><{(--\', 23.8, 18.2);';
             expect(points.addPointSql(point)).to.equal(str);
         });
 });
