@@ -66,35 +66,26 @@ Maybe it just doesn't support some of the new HTML5 features.
 The unittests are written and run using the mocha framework and
 the chai framework for assertions.  
 The output from running the tests should look something like the below:  
-```    
-$ mocha tests  
+```  
+$ mocha tests 
 
-  Controller  
-    √ json2string(point) should return null when given null    
-    √ point2string(point) should handle floats  
-    √ json2string(point) should handle floats  
-    √ rowInDB(json) empty doesnt have the row  
-    √ rowInDB(json) not empty doesnt have the row  
-    √ rowInDB(json) does have the row  
+  Controller
+    √ geoCallback(error, response, body) simple override
+    √ geoCallback(error, response, body) all values correct
+    √ movieCallback(error, response, body) simple length test
+    √ movieCallback(error, response, body) test contents
+    √ rowInDB(point) empty doesnt have the row
+    √ rowInDB(point) not empty doesnt have the row
+    √ rowInDB(point) does have the row
+
+  points
+    √ setPos(pos) simple version
+    √ setPos(pos) same address and title
+    √ addPointSql(point) simple version
+    √ addPointSql(point) with spaces
+    √ addPointSql(point) with fancy symbols
+
+
+  12 passing (359ms)
+  ```  
   
-  PointDAO  
-    √ addPointSql(json, loc) simple version  
-    √ addPointSql(json, loc) with spaces  
-    √ addPointSql(json, loc) with fancy symbols  
-  
-  9 passing (29ms)
-```
-
-+++++++++++++++++++++
-+++++++++++++++++++++
-
-WHEN ALL THE TESTS ARE WRITTEN, PASTE IN A NEW SNAPSHOT OF THE TERMINAL HERE !
-
-simple tests for both callbacks in controller
-
-make sure to reset the controller/points on every test...
-  should I require them in each test?
-
-+++++++++++++++++++++
-+++++++++++++++++++++
-

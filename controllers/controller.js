@@ -5,8 +5,16 @@ var request = require('request'),
     googleApiKey = 'AIzaSyCEBJe5Y7LfEhQ23FTLkm0FaRBDoOhtpRw',
     exports = module.exports = {};
 
+exports.getPoints = function() {
+    return points;
+};
+
 exports.setDB = function(points) {
     DB = points;
+};
+
+exports.getDB = function() {
+    return DB;
 };
 
 exports.getGoogleApi = function() {
@@ -17,7 +25,7 @@ exports.getGoogleApi = function() {
 exports.movieCallback = function(error, response, body) {
     if(!error && response.statusCode == 200) {
         var movies = JSON.parse(body);
-        console.log('Found ' + movies.length + ' SF movie api rows');
+        // console.log('Found ' + movies.length + ' SF movie api rows');
         var missing = [];
         for(var i = 0; i < movies.length; i++) {
             var point = new points.Point(
@@ -76,6 +84,7 @@ exports.geoCallback = function(error, response, body) {
 };
 
 exports.rowInDB = function(point) {
+    // console.log('rowInDB point='+JSON.stringify(point));
     for(var i = 0; i < DB.length; i++) {
         if(DB[i].address == point.address &&
            DB[i].title == point.title) {

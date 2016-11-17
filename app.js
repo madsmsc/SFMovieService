@@ -15,7 +15,7 @@ app.get('/', function(req, res) {
     points.getPoints(callback(res));
 });
 
-function callback(res) {
+var callback = function(res) {
     return function(pointList) {
         res.render('index', {
             user: 'mads',
