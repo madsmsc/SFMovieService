@@ -2,7 +2,7 @@ var chai = require('chai'),
     expect = chai.expect,
     requireNew = require('require-new');
 
-describe('Controller', function() {
+describe('controller', function() {
     var controller, points;
     beforeEach(function(done) {
         controller = requireNew('../controllers/controller');

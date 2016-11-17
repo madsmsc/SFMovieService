@@ -65,11 +65,9 @@ Maybe it just doesn't support some of the new HTML5 features.
 ## Testing
 The unittests are written and run using the mocha framework and
 the chai framework for assertions.  
-The output from running the tests should look something like the below:  
+The output from running the tests ('mocha tests' or 'npm test') should look something like the below:  
 ```  
-$ mocha tests 
-
-  Controller
+  controller
     √ geoCallback(error, response, body) simple override
     √ geoCallback(error, response, body) all values correct
     √ movieCallback(error, response, body) simple length test
@@ -88,4 +86,3 @@ $ mocha tests
 
   12 passing (359ms)
   ```  
-  
