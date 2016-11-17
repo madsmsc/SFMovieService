@@ -56,8 +56,7 @@ logic (controller.js) and domain (points.js).
 
 ## TODO
 * The API key for the Google api is not yet restricted. It should be.
-* Errors in the code are not handled very gracefully. 
-They are just ignored and logged.
+* Errors in the code are not handled very gracefully - They are just ignored.
 * The title autocompletion doesn't seem to work in FF. 
 Maybe it just doesn't support some of the new HTML5 features.
 * Sql injection. I should sanitize the input from SF movie api.
